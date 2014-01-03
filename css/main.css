@@ -93,15 +93,107 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+body {
+	position: absolute;
+	width:100%;
+	left:50%;
+	margin-left: -50%;
+	background-color: white;
+	text-align: center;
+	font-family: Helvetica-Neue, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 150; letter-spacing: .063;
+	box-shadow: 0 0 .625 rgba(0, 0, 0, 0.2);
+	font-size: 1em;
+}
 
 
+.background {
+  fill: none;
+  pointer-events: all;
+}
 
+#states {
+  fill: #aaa;
+}
 
+#states .active {
+  fill: orange;
+}
 
+#state-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
 
+#legend {
+	width: 960px;
+	height: auto;
+	z-index: 10;
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: rgba(255, 255, 255, .8);
+	background-image: none;
+	background-size: auto auto;
+	clear: both;
+	color: rgb(85, 85, 85);
+	font-size: 1.2em;
+	font-weight: 400;
+	line-height:1.2em;
+	margin: 0 auto;
+	padding: .375em .5em .375em .5em;
+	text-align: center;
+}
 
+#legendTitle strong {
+	line-height: 100%;
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 20%;
+	cursor:pointer;
+	margin-right: .2em;
+}
 
+#legendTitle #unit {
+	display: inline;
+	line-height: 100%;
+	font-size: .8em;
+	text-align: center;
+	margin-right: 1em;
+}
 
+#legend .legendOption{
+	font-size: 100%;
+	height: 15%;
+	line-height: 100%;
+	width: auto;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.legendOption:hover {
+	text-decoration: underline;
+}
+
+#legend i {
+	cursor: pointer;
+	height: 1em;
+	width: 1em;
+	margin-right: .5em;
+	opacity: 1;
+	pointer-events: auto;
+	text-align: left;
+	float: left;
+	line-height:normal;
+	z-index:11;
+	box-shadow: 0 0 .938em rgba(0, 0, 0, 0.2);
+}
+.legendOption p {
+	display: inline;
+	margin-right:1em;
+}
 
 
 
