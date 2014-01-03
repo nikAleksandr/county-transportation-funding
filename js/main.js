@@ -5,10 +5,12 @@ var width = 960,
 var domain,
 	range,
 	units;
+
+var selectedData = "gasTax";
 //set up a switch that sets domain, range, and other cross-data variables based on their button selection
 switch (selectedData)
 {
-	case gasTax: 
+	case "gasTax": 
 		domain = [20, 25, 30, 35, 40, 45, 50, 55 ];
 		range = ['rgb(247,251,255)','rgb(222,235,247)','rgb(198,219,239)','rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,69,148)'];
 		units = "cents on the gallon";
