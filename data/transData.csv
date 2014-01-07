@@ -1,4 +1,4 @@
-id,state,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads
+id,stateAbbrev,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads
 2,AK,12.4,Alaska,43,0,10.7,22.68
 1,AL,20.9,Alabama,18,1,53.8,61.2374419
 5,AR,21.8,Arkansas,12,0,33.9,65.7241596
