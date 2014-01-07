@@ -1,52 +1,52 @@
-id,state,gasTax,stateName
-1,AL,20.9,Alabama
-2,AK,12.4,Alaska
-4,AZ,19,Arizona
-5,AR,21.8,Arkansas
-6,CA,53.2,California
-8,CO,22,Colorado
-9,CT,49.3,Connecticut
-10,DE,23,Delaware
-11,DC,28.8,District of Columbia
-12,FL,35.4,Florida
-13,GA,28.5,Georgia
-15,HI,50.3,Hawaii
-16,ID,25,Idaho
-17,IL,39.1,Illinois
-18,IN,38.2,Indiana
-19,IA,22,Iowa
-20,KS,25,Kansas
-21,KY,32.3,Kentucky
-22,LA,20,Louisiana
-23,ME,31.5,Maine
-24,MD,27,Maryland
-25,MA,26.5,Massachusetts
-26,MI,39.3,Michigan
-27,MN,28.6,Minnesota
-28,MS,18.8,Mississippi
-29,MO,17.3,Missouri
-30,MT,27.8,Montana
-31,NE,27.2,Nebraska
-32,NV,33.1,Nevada
-33,NH,19.6,New Hamshire
-34,NJ,14.5,New Jersey
-35,NM,18.9,New Mexico
-36,NY,49.9,New York
-37,NC,37.8,North Carolina
-38,ND,23,North Dakota
-39,OH,28,Ohio
-40,OK,17,Oklahoma
-41,OR,31.1,Oregon
-42,PA,32.3,Pennsylvania
-44,RI,33,Rhode Island
-45,SC,16.8,South Carolina
-46,SD,22,South Dakota
-47,TN,21.4,Tennessee
-48,TX,20,Texas
-49,UT,24.5,Utah
-50,VT,32.3,Vermont
-51,VA,17.3,Virginia
-53,WA,37.5,Washington
-54,WV,34.7,West Virginia
-55,WI,32.9,Wisconsin
-56,WY,24,Wyoming
+id,state,gasTax,stateName,otherData
+1,AL,20.9,Alabama,24.9
+2,AK,12.4,Alaska,14.4
+4,AZ,19,Arizona,20
+5,AR,21.8,Arkansas,23.8
+6,CA,53.2,California,52.2
+8,CO,22,Colorado,20
+9,CT,49.3,Connecticut,48.3
+10,DE,23,Delaware,27
+11,DC,28.8,District of Columbia,27.8
+12,FL,35.4,Florida,38.4
+13,GA,28.5,Georgia,30.5
+15,HI,50.3,Hawaii,55.3
+16,ID,25,Idaho,30
+17,IL,39.1,Illinois,42.1
+18,IN,38.2,Indiana,42.2
+19,IA,22,Iowa,23
+20,KS,25,Kansas,21
+21,KY,32.3,Kentucky,33.3
+22,LA,20,Louisiana,23
+23,ME,31.5,Maine,30.5
+24,MD,27,Maryland,28
+25,MA,26.5,Massachusetts,21.5
+26,MI,39.3,Michigan,40.3
+27,MN,28.6,Minnesota,32.6
+28,MS,18.8,Mississippi,20.8
+29,MO,17.3,Missouri,16.3
+30,MT,27.8,Montana,29.8
+31,NE,27.2,Nebraska,28.2
+32,NV,33.1,Nevada,37.1
+33,NH,19.6,New Hamshire,21.6
+34,NJ,14.5,New Jersey,9.5
+35,NM,18.9,New Mexico,18.9
+36,NY,49.9,New York,45.9
+37,NC,37.8,North Carolina,37.8
+38,ND,23,North Dakota,24
+39,OH,28,Ohio,23
+40,OK,17,Oklahoma,17
+41,OR,31.1,Oregon,31.1
+42,PA,32.3,Pennsylvania,27.3
+44,RI,33,Rhode Island,31
+45,SC,16.8,South Carolina,14.8
+46,SD,22,South Dakota,26
+47,TN,21.4,Tennessee,25.4
+48,TX,20,Texas,20
+49,UT,24.5,Utah,22.5
+50,VT,32.3,Vermont,32.3
+51,VA,17.3,Virginia,15.3
+53,WA,37.5,Washington,34.5
+54,WV,34.7,West Virginia,30.7
+55,WI,32.9,Wisconsin,31.9
+56,WY,24,Wyoming,27
