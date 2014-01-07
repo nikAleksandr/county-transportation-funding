@@ -1,13 +1,13 @@
 var width = 960,
 	height = 500,
-	domain = [10, 22, 33, 44, 60 ],
+	domain = [20, 25, 30, 35, 100 ],
 	range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'],
 	units = "cents on the gallon",
 	legendTitleText = "State Gas Tax Rates",
 	xDomain = {},
 	data;
 
-var gasTaxByState = {};
+var quantByState = {};
 var nameByState = {};
   
 var legendExists = false;
@@ -43,24 +43,34 @@ function legendMaker(domain, range, units, legendTitleText){
 	if(legendExists){
 		legend.remove();
 	}
+	
 	legend = d3.select("body").append("div")
-	.attr("id", "legend");
+		.attr("id", "legend");
 
 	xDomain = {};
 		for(var i=0; i< domain.length; i++){
-			var DText = parseInt(domain[i-1]) + "-" + parseInt(domain[i]);
+			var DText = parseFloat(domain[i-1]) + "-" + parseFloat(domain[i]);
 				if(i==0){
-					DText = "> " + parseInt(domain[i]);
+					DText = "> " + parseFloat(domain[i]);
 				}
 			var RColor = range[i];
 				//we don't have this key yet, so make a new one
 				xDomain[DText] = RColor;
 		}
 		
+	if(units=="binary"){
+		xDomain = {
+			"No": 'rgb(201, 228, 242)',
+			"Yes": 'rgb(255, 166, 1)',
+		};
+	}
+	
 	var legendTitle = legend.append("div").attr("id", "legendTitle");
 		legendTitle.append("strong").text(legendTitleText);
-		legendTitle.append("p").attr("id", "unit").text("in " + units);
-	
+		if(units!="binary"){
+			legendTitle.append("p").attr("id", "unit").text("in " + units);
+		}
+		
 	legend.selectAll("legendoption").data(d3.values(xDomain)).enter().append("legendoption")
 		    	.attr("class", "legendOption")
 		    	.append("i").style("background-color", function(d){ return d; });
@@ -69,35 +79,13 @@ function legendMaker(domain, range, units, legendTitleText){
 	
 	legendExists = true;
 }
-/*
-	//color and number replacement and transitions
-	xDomain = {};
-	for(var i=0; i< domain.length; i++){
-		var DText = parseInt(domain[i-1]) + "-" + parseInt(domain[i]);
-			if(i==0){
-				DText = "> " + parseInt(domain[i]);
-			}
-		var RColor = range[i];
-			//we don't have this key yet, so make a new one
-			xDomain[DText] = RColor;
-	}
-	
-	var RColors = d3.values(xDomain);
-	var DTexts = d3.keys(xDomain);
-	
-	d3.selectAll(".legendOption i")
-		.transition().duration(750)
-		.style("background-color", function(RColors){return RColors; });
-	
-	d3.selectAll(".legendOption p").text(function(DTexts){return DTexts; });
-		
-*/
 
-d3.csv("data/gasTax.csv", function (error, gasTax) {
-	data = gasTax;
 
-  gasTax.forEach(function(d) { 
-  	gasTaxByState[d.id] = +d.gasTax; 
+d3.csv("data/transData.csv", function (error, transData) {
+	data = transData;
+
+  transData.forEach(function(d) { 
+  	quantByState[d.id] = +d.gasTaxRate; 
   	nameByState[d.id] = d.stateName;
   });
   
@@ -109,11 +97,23 @@ d3.csv("data/gasTax.csv", function (error, gasTax) {
 	      .data(topojson.feature(us, us.objects.states).features)
 	    .enter().append("path")
 	      .attr("d", path)
-	      .style("fill", function(d) { if(!isNaN(gasTaxByState[d.id])){return color(gasTaxByState[d.id]);} else{return "#ccc";} })
+	      .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} })
 	      .append("svg:title")
 	      	.text(function(d) {return nameByState[d.id]; });
-	      //.on("click", clicked);
-	
+	      /*.on("click", clicked);
+	      .on("mouseover", function (d) {
+		        return toolOver(d, this)
+	    }).on("mouseout", function (d) {
+	        return toolOut(d, this)
+	    }).on("mousemove", function (d, i) {
+	        var filtered;
+	        for (var i = 0; i < dataset.length; i++) {
+	            if (dataset[i].cfips == d.id) {
+	                filtered = dataset[i];
+	                break;
+	            }
+	        }
+	*/
 	  g.append("path")
 	      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
 	      .attr("id", "state-borders")
@@ -125,28 +125,51 @@ d3.csv("data/gasTax.csv", function (error, gasTax) {
 function update(value){
 	
 	//set up a switch that sets domain, range, and other cross-data variables based on their button selection
-	switch (value)
-	{
-		case "gasTax": 
-			domain = [20, 25, 35, 45, 50 ];
+	switch (value){
+		case "gasTaxRate": 
+			domain = [20, 25, 30, 35, 100 ];
 			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
 			units = "cents on the gallon";
 			legendTitleText = "State Gas Tax Rates";
 			console.log("switch went to " + value);
 			legendMaker(domain, range, units, legendTitleText);
 			break;
-		case "otherData":
-			domain = [20, 25, 30, 35, 40];
-			range = ['rgb(247,251,255)','rgb(222,235,247)','rgb(198,219,239)','rgb(158,202,225)','rgb(107,174,214)'];
-			units = "gigabytes";
-			legendTitleText = "Other Data";
+		case "yrsSinceInc":
+			domain = [1, 10, 20, 30, 50];
+			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
+			units = "years";
+			legendTitleText = "Time Since A Gas Tax Increase";
+			console.log("switch went to " + value);
+			legendMaker(domain, range, units, legendTitleText);
+			break;
+		case "localGasTax":
+			domain = [1, 2];
+			range = ['rgb(201, 228, 242)','rgb(255, 166, 1)'];
+			units = "binary";
+			legendTitleText = "States That Permit a Local Gas Tax";
+			console.log("switch went to " + value);
+			legendMaker(domain, range, units, legendTitleText);
+			break;
+		case "pctBridges":
+			domain = [20, 40, 60, 80, 100];
+			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
+			units = "percent";
+			legendTitleText = "Share of County Owned Bridges";
+			console.log("switch went to " + value);
+			legendMaker(domain, range, units, legendTitleText);
+			break;
+		case "pctRoads":
+			domain = [20, 40, 60, 80, 100];
+			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
+			units = "percent";
+			legendTitleText = "Share of County Owned Roads";
 			console.log("switch went to " + value);
 			legendMaker(domain, range, units, legendTitleText);
 			break;
 	}
 	
 	data.forEach(function(d){
-		gasTaxByState[d.id] = d[value]; 
+		quantByState[d.id] = d[value]; 
   		nameByState[d.id] = d.stateName;
 	});
 	
@@ -157,12 +180,24 @@ function update(value){
 	g.selectAll(".states path")
 	  .transition()
       .duration(750)
-	  .style("fill", function(d) { return color(gasTaxByState[d.id]); });
+	  .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} });
 
 }
 
 $("#select button").click(function() {
-	update(this.value);
 	$("#select button").removeClass("active");
-	$(this).addClass("active");
+	//$(this).addClass("btn active");
+	update(this.value);
 });
+
+//
+
+function clicked(){
+	
+}
+function toolOver(){
+	
+}
+function toolOut(){
+	
+}
