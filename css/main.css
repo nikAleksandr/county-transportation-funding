@@ -109,11 +109,14 @@ body {
   pointer-events: all;
 }
 
-#states {
-  fill: #aaa;
+svg { background:rgb(255,255,255);position:relative;}
+svg:not(:root) { overflow: hidden; }
+
+.states {
+  fill: none;
 }
 
-#states .active {
+.states .active {
   fill: orange;
 }
 
