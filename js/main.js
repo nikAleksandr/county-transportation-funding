@@ -9,6 +9,7 @@ var width = 960,
 
 var quantByState = {};
 var nameByState = {};
+var linkByState = {};
   
 var legendExists = false;
   
@@ -32,6 +33,8 @@ svg.append("rect")
     .attr("width", width)
     .attr("height", height);
     //.on("click", clicked);
+
+var tooltip = d3.select("body").append("div").attr("id", "tt").style("z-index", "10").style("position", "absolute").style("visibility", "hidden");
 
 var g = svg.append("g");
 
@@ -87,6 +90,7 @@ d3.csv("data/transData.csv", function (error, transData) {
   transData.forEach(function(d) { 
   	quantByState[d.id] = +d.gasTaxRate; 
   	nameByState[d.id] = d.stateName;
+  	linkByState[d.id] = d.stateAbbrev;
   });
   
 
@@ -98,22 +102,38 @@ d3.csv("data/transData.csv", function (error, transData) {
 	    .enter().append("path")
 	      .attr("d", path)
 	      .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} })
-	      .append("svg:title")
-	      	.text(function(d) {return nameByState[d.id]; });
-	      /*.on("click", clicked);
+	      .on("click", clicked)
 	      .on("mouseover", function (d) {
-		        return toolOver(d, this)
+		        return toolOver(d, this);
 	    }).on("mouseout", function (d) {
-	        return toolOut(d, this)
+	        return toolOut(d, this);
 	    }).on("mousemove", function (d, i) {
 	        var filtered;
-	        for (var i = 0; i < dataset.length; i++) {
-	            if (dataset[i].cfips == d.id) {
-	                filtered = dataset[i];
+	        for (var i = 0; i < data.length; i++) {
+	            if (data[i].id == d.id) {
+	                filtered = data[i];
 	                break;
 	            }
 	        }
-	*/
+	        myPos = d3.mouse(this);
+	        myX = myPos[0];    
+	        myY = myPos[1];
+	        
+	        var coords = getScreenCoords(myX, myY, this.getCTM());
+			var a = (isNaN(data[i].gasTaxRate) ? "N/A" : data[i].gasTaxRate);
+			var b = (isNaN(+data[i].yrsSinceInc) ? "N/A" : +data[i].yrsSinceInc);
+			var c = (isNaN(data[i].localGasTax) ? "N/A" : data[i].localGasTax);
+			var d = (isNaN(+data[i].pctBridges) ? "N/A" : +data[i].pctBridges);
+			var e = (isNaN(+data[i].pctRoads) ? "N/A" : +data[i].pctRoads);
+	
+	        myX = coords.x;
+	        myY = coords.y;
+	        return toolMove(data[i].stateName, a, b, c, d, e);
+	    });
+	      /*.append("svg:title")
+	      	.text(function(d) {return nameByState[d.id]; });
+	      */
+	     
 	  g.append("path")
 	      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
 	      .attr("id", "state-borders")
@@ -192,12 +212,48 @@ $("#select button").click(function() {
 
 //
 
-function clicked(){
+function clicked(d){
+	console.log(linkByState[d.id]);
 	
+	window.open('profiles/State_Summary_' + linkByState[d.id] + '.docx', '_blank');
 }
-function toolOver(){
+function toolOver(v, thepath) {
+	d3.select(thepath).style({
+		"fill-opacity": "0.1",
+		"cursor": "pointer"
+	});
+	return tooltip.style("visibility", "visible");
+};
+
+function toolOut(m, thepath) {
+	d3.select(thepath).style({
+		"fill-opacity": "1"
+	});
+	return tooltip.style("visibility", "hidden");
+};
+
+
+function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRoads) {
+	/*	
+		gasTaxRate = (isNaN(paid) ? "N/A" : format1(paid));
+		yrsSinceInc = (isNaN(val) ? "N/A" : format2(val));
+		localGasTax = (isNaN(paidrank) ? "N/A" : format1(paidrank));
+		pctBridges = format1(sharerank);
+	*/
+
+	if (myX < 50) {
+		myX = 50
+	};
 	
-}
-function toolOut(){
+	if (myY < 50) {
+		myY = 50
+	};
 	
+	return tooltip.style("top", myY + -50 + "px").style("left", myX - 50 + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Avg taxes paid: <b>$" + gasTaxRate + "</b><br>Taxes paid rank: <b>" + yrsSinceInc + "</b><br>Taxes paid as share of income: <b>" + localGasTax + "%</b><br>Taxes paid as share rank: <b>" + pctBridges + "</b></div><div class='tipClear'></div> </div>");
+};
+
+function getScreenCoords(x, y, ctm) {
+  var xn = ctm.e + x*ctm.a;
+  var yn = ctm.f + y*ctm.d;
+  return { x: xn, y: yn };
 }
