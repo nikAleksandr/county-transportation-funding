@@ -5,7 +5,11 @@ var width = 960,
 	units = "cents on the gallon",
 	legendTitleText = "State Gas Tax Rates",
 	xDomain = {},
-	data;
+	data,
+	myPos,
+	myX,
+	myY,
+	WWidth;
 
 var quantByState = {};
 var nameByState = {};
@@ -215,7 +219,7 @@ $("#select button").click(function() {
 function clicked(d){
 	console.log(linkByState[d.id]);
 	
-	window.open('profiles/State_Summary_' + linkByState[d.id] + '.docx', '_blank');
+	window.open('profiles/State_Summary_' + linkByState[d.id] + '.pdf', '_blank');
 }
 function toolOver(v, thepath) {
 	d3.select(thepath).style({
@@ -240,16 +244,27 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 		localGasTax = (isNaN(paidrank) ? "N/A" : format1(paidrank));
 		pctBridges = format1(sharerank);
 	*/
+	WWidth = $(window).width();
 
-	if (myX < 50) {
-		myX = 50
+ 
+	if (myX < 20) {
+		myX = 20;
 	};
 	
-	if (myY < 50) {
-		myY = 50
+	if (myY < 20) {
+		myY = 20;
 	};
 	
-	return tooltip.style("top", myY + -50 + "px").style("left", myX - 50 + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Avg taxes paid: <b>$" + gasTaxRate + "</b><br>Taxes paid rank: <b>" + yrsSinceInc + "</b><br>Taxes paid as share of income: <b>" + localGasTax + "%</b><br>Taxes paid as share rank: <b>" + pctBridges + "</b></div><div class='tipClear'></div> </div>");
+	function permitted(localGasTax){
+		if(localGasTax==1){
+			return "Permitted";
+		}
+		else{
+			return "Not Permitted";
+		}
+	};
+	
+	return tooltip.style("top", myY + -0 + "px").style("left", myX +((WWidth-960)/2)- 100 + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Gas tax ($/gallon): <b>$" + Math.round(gasTaxRate)/100 + "</b><br>Last gas tax increase: <b>" + (2013-yrsSinceInc) + "</b><br>County-level gas tax under state law: <b>" + permitted(localGasTax) + "</b><br>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b></div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {

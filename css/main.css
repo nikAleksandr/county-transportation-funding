@@ -103,6 +103,28 @@ body {
 	font-size: 1em;
 }
 
+#header {
+	width: 960px;
+	height: auto;
+	margin: 0 auto 1em auto;
+	padding-left: 1em;
+	padding-bottom: .5em;
+	color: #FFCC66;
+	box-shadow: 0 .5em .5em rgba(0, 0, 0, 0.1);
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-image: none;
+	background-size: auto auto;
+}
+
+#header p {
+	width: 50%;
+	margin: .5em auto;
+	color: #000;
+	font-weight: 100;
+}
+
+
 
 .background {
   fill: none;
