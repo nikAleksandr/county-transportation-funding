@@ -81,7 +81,17 @@ function legendMaker(domain, range, units, legendTitleText, notes){
 			"No": 'rgb(201, 228, 242)',
 			"Yes": 'rgb(255, 166, 1)',
 		};
+	}  
+	if(units=="categorical"){
+		xDomain = {
+			"Counties do not have authority to levy property taxes": 'rgb(255,166,1)',
+			"Both property tax rate and assessment limit": 'rgb(10,132,193)',
+			"Only assessment limit": 'rgb(96,175,215)', 
+			"Only property tax rate limit": 'rgb(201,228,242)', 
+			"Neither property tax rate nor assessment limit": 'rgb(255,204,102)',
+		};
 	}
+	
 	
 	var legendTitle = legend.append("div").attr("id", "legendTitle");
 		legendTitle.append("strong").text(legendTitleText);
@@ -177,7 +187,7 @@ function update(value){
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 50];
-			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
+			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'];
 			units = "years";
 			legendTitleText = "Time Since A Gas Tax Increase";
 			notes = "";
@@ -193,7 +203,7 @@ function update(value){
 			break;
 		case "pctBridges":
 			domain = [20, 40, 60, 80, 100];
-			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
+			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'];
 			units = "%";
 			legendTitleText = "Share of County Owned Bridges";
 			notes = "";
@@ -201,7 +211,7 @@ function update(value){
 			break;
 		case "pctRoads":
 			domain = [20, 40, 60, 80, 100];
-			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
+			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'];
 			units = "%";
 			legendTitleText = "Share of County Owned Roads";
 			notes = "";
@@ -224,10 +234,10 @@ function update(value){
 			legendMaker(domain, range, units, legendTitleText, notes);
 			break;
 		case "propTaxLimits": 
-			domain = [20, 25, 30, 35, 100 ];
-			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
-			units = "/gal.";
-			legendTitleText = "State Gas Tax Rates";
+			domain = [1, 2, 3, 4, 5];
+			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
+			units = "categorical";
+			legendTitleText = "State Limits on Property Tax Collection";
 			notes = "Maine and Vermont states do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
 			legendMaker(domain, range, units, legendTitleText, notes);
 	}
