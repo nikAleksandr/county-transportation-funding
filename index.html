@@ -3,55 +3,97 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Role of Counties in Transportation</title>
+        <title>The Road Ahead</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
 
         <link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
         <script src="js/vendor/modernizr-2.7.1.min.js"></script>
         <script src="http://d3js.org/d3.v3.min.js"></script>
 		<script src="http://d3js.org/topojson.v1.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-        <!-- Add your site or application content here -->
-		<div id="header">
-			<h1>County Transportation Funding and Financing</h1>
-			<p>Choose the data to display on the map, hover over a state for more info, and click on a state for a full transporation profile.</p>
+    	<div class="container">
+	        <!--[if lt IE 8]>
+	            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	        <![endif]-->
+			<div id="instructions">
+		        	<div id="close">Close</div>
+		        	<div id="instructionText">
+			        	<img src="apple-touch-icon.png" class="instructionImg"><!--image of pointer over county-->
+			        	<p>Select a category to see the values across the country</p>
+			        	<br clear="left"/>
+			        	<img src="apple-touch-icon.png" class="instructionImg"><!--image of dropdown menu-->
+			        	<p>Hover over a state for additional information on counties' role in transportation.</p>
+			        	<br clear="left"/>
+			        	<img src="apple-touch-icon.png" class="instructionImg">
+			        	<p>Have questions? Hover for definitions, or <a href="mailto:research@naco.org">email us</a>.</p>
+			        </div>
+		        </div>
+			<script>
+			        	var instructionBox = d3.select("#instructions").style("display", "block");
+			        	
+			        	var closeButton = d3.select('#close').on("click", function(){ instructionBox.style("display", "none"); });
+			        	
+			        	var helpButton = d3.select("#help").on("click", function(){ instructionBox.style("display", "block"); });
+	        
+	        </script>
+	        
+	        <!-- Add your site or application content here -->
+			<div id="header">
+				<div id="help">help?</div>
+				<h1>THE ROAD AHEAD<br/><small>County Transportation Funding and Financing</small></h1>
+				
+				<div id="select" class="btn-group" data-toggle="buttons">
+					
+					<button class="btn" value="pctRoads" type="radio">County Roads</button>
+					<button class="btn" value="pctBridges" type="radio">County Bridges</button>
+					<button class="btn active" value="gasTaxRate" type="radio">State Gas Tax Rate</button>
+					<button class="btn" value="gasTaxType" type="radio">State Gas Tax Type</button>
+					<button class="btn" value="localGasTax" type="radio">Local Gas Tax</button>
+					<button class="btn" value="localSalesTax" type="radio">Local Option Sales Tax</button>
+					<button class="btn" value="yrsSinceInc" type="radio">Last Gas Tax Increase</button>
+					<button class="btn" value="propTaxLimits" type="radio">State Limits on Property Tax</button>
+				</div>
 			
-			<div id="select" class="btn-group" data-toggle="buttons">
-				<button class="btn active" value="gasTaxRate" type="radio">Gas Tax</button>
-				<button class="btn" value="yrsSinceInc" type="radio">Last Gas Tax Increase</button>
-				<button class="btn" value="localGasTax" type="radio">Local Gas Tax</button>
-				<button class="btn" value="pctBridges" type="radio">County Bridges</button>
-				<button class="btn" value="pctRoads" type="radio">County Roads</button>
 			</div>
-		
-		</div>
-		
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-
-		
-		
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+			<div id="map"></div>
+	        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+	        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	        <script src="js/plugins.js"></script>
+	        <script src="js/main.js"></script>
+			
+			<div id="IE-update"><p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p></div>
+			<script>
+				d3.select("#IE-update").attr("class", "hidden");
+			</script>
+	        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+	        <script>
+	            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+	            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+	            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+	            e.src='//www.google-analytics.com/analytics.js';
+	            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+	            ga('create','UA-XXXXX-X');ga('send','pageview');
+	        </script>
+	        <div id="underMap">
+		        	<p id="byline">Interactive by Nicholas Lyell</p>
+		        	<p id="dataSource"><em>Data Source: ???</em></p>
+		        	<p id="webinar">Want to see why this tool matters to you and <b>your county</b>?  Register for our <a href="#">free webinar</a>. </p>
+		        	<p id="dataNotes" ><strong>Notes: </strong>Transportation refers only to public roads and
+						bridges for the purpose of this study. This report
+						does not analyze funding and financing for county
+						transit, air, rail or water transportation systems as
+						these transportation assets often have different
+						ownership and funding structures than roads and
+						bridges.  Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not
+						included in this study.
+					</p>
+	        </div>
+   		</div>
     </body>
 </html>

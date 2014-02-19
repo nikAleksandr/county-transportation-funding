@@ -89,13 +89,17 @@ textarea {
     color: #000;
     padding: 0.2em 0;
 }
-
+#IE-update{
+	font-size: 2em;
+	margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
 body {
-	position: absolute;
-	width:100%;
 	background-color: white;
 	text-align: center;
 	font-family: Helvetica-Neue, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 150; letter-spacing: .063;
@@ -103,13 +107,80 @@ body {
 	font-size: 1em;
 }
 
-#header {
-	width: 960px;
+#underMap {
+	margin: 0 auto;
+	text-align: left;
+}
+#underMap a{
+	color: #FFCC66;
+}
+#byline{
+	color: rgb(0,64,112);
+	float: right;
+	margin-right: 0;
+	width: auto;
+}
+
+
+#instructions{
+	display:none;
+	text-align: left;
+	width: 50%;
 	height: auto;
-	margin: 0 auto 1em auto;
+	position: absolute;
+	left: 25%;
+	top: 25%;
+	z-index: 100;
+	box-shadow: 0 0 .938em rgba(0, 0, 0, 0.2);
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: rgba(255, 255, 255, .9);
+	background-image: none;
+	background-size: auto auto;
+	padding: 2% 2% 5% 2%;
+}
+
+.instructionImg{
+	display: inline-block;
+	float: left;
+	height: 5%;
+	width: 5%;
+	margin: 0 1em;
+	display: none;
+}
+
+#instructionText{
+	width: 100%;
+	display: inline-block;
+	float: left;
+	font-size: 1em;
+	padding-top: 2%;
+}
+
+#instructionText a{
+	color:rgb(0,64,112);
+	cursor: pointer;
+}
+
+#close, #help {
+	color:rgb(0,64,112);
+	font-size: 1em;
+	position: relative;
+	float: right;
+	cursor: pointer;
+}
+
+#close:hover, #instructionText a:hover, #help:hover{
+	text-decoration:underline;
+}
+
+#header {
+	width: 110%;
+	height: auto;
+	font-size: 1em;
+	margin: 0 auto 1em -5%;
 	padding-left: 1em;
 	padding-bottom: .5em;
-	color: #FFCC66;
 	box-shadow: 0 .5em .5em rgba(0, 0, 0, 0.1);
 	background-attachment: scroll;
 	background-clip: border-box;
@@ -118,21 +189,46 @@ body {
 }
 
 #header p {
-	width: 50%;
+	width: 90%;
 	margin: .5em auto;
-	color: #000;
 	font-weight: 100;
+	font-size: 1em;
+	color:rgb(0,64,112);
+}
+#header h1{
+	color: #FFCC66;
+	font-weight: 100;
+	letter-spacing: .063em;
+	text-align: left;
+}
+h1 small {
+	color:rgb(0,64,112);
 }
 
-
+.btn-group{
+	color: rgb(0,64,112);
+}
+.btn-group .btn{
+	background-color: #FFF;
+	border: 1px solid rgb(0,64,112);
+}
+.btn.active, .btn-group .btn:hover{
+	background-color: rgb(0,64,112);
+	color: #FFF;
+}
 
 .background {
   fill: none;
   pointer-events: all;
 }
 
-svg { background:rgb(255,255,255);position:relative;}
-svg:not(:root) { overflow: hidden; }
+svg { 
+	background:rgb(255,255,255);
+	position:relative;
+}
+svg:not(:root) {
+	overflow: hidden; 
+}
 
 .states {
   fill: none;
@@ -152,7 +248,7 @@ svg:not(:root) { overflow: hidden; }
 }
 
 #legend {
-	width: 960px;
+	width: auto;
 	height: auto;
 	z-index: 10;
 	background-attachment: scroll;
@@ -192,16 +288,10 @@ svg:not(:root) { overflow: hidden; }
 	height: 15%;
 	line-height: 100%;
 	width: auto;
-	cursor: pointer;
 	display: inline-block;
 }
 
-.legendOption:hover {
-	text-decoration: underline;
-}
-
 #legend i {
-	cursor: pointer;
 	height: 1em;
 	width: 1em;
 	margin-right: .5em;
@@ -313,8 +403,9 @@ svg:not(:root) { overflow: hidden; }
    Modify as content requires.
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
+@media (min-width: 640) {
     /* Style adjustments for viewports that meet the condition */
+
 }
 
 @media print,

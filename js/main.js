@@ -1,9 +1,10 @@
-var width = 960,
-	height = 500,
+var width = parseInt(d3.select('.container').style('width')),
+	height = width/1.92,
 	domain = [20, 25, 30, 35, 100 ],
-	range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'],
-	units = "cents on the gallon",
+	range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'],
+	units = "/gal.",
 	legendTitleText = "State Gas Tax Rates",
+	notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
 	xDomain = {},
 	data,
 	myPos,
@@ -16,19 +17,21 @@ var nameByState = {};
 var linkByState = {};
   
 var legendExists = false;
-  
+var extraNote = d3.select("#underMap").append("div");
+	
+
 var color = d3.scale.threshold()
 	.domain(domain)
 	.range(range);
 
 var projection = d3.geo.albersUsa()
-	    .scale(1070)
+	    .scale(width*1.1)
 	    .translate([width / 2, height / 2]);
 	
 var path = d3.geo.path()
     .projection(projection);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#map").append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -38,28 +41,36 @@ svg.append("rect")
     .attr("height", height);
     //.on("click", clicked);
 
-var tooltip = d3.select("body").append("div").attr("id", "tt").style("z-index", "10").style("position", "absolute").style("visibility", "hidden");
+var tooltip = d3.select("#map").append("div").attr("id", "tt").style("z-index", "10").style("position", "absolute").style("visibility", "hidden");
 
 var g = svg.append("g");
 
 var legend;    
 
-legendMaker(domain, range, units, legendTitleText);
+legendMaker(domain, range, units, legendTitleText, notes);
 //Make a key:value pair for Domain and Range in order to automatically generate the legend
-function legendMaker(domain, range, units, legendTitleText){
+function legendMaker(domain, range, units, legendTitleText, notes){
 	if(legendExists){
 		legend.remove();
 	}
 	
-	legend = d3.select("body").append("div")
+	
+	
+	legend = d3.select("#map").append("div")
 		.attr("id", "legend");
 
 	xDomain = {};
 		for(var i=0; i< domain.length; i++){
-			var DText = parseFloat(domain[i-1]) + "-" + parseFloat(domain[i]);
+			var DText = parseFloat(domain[i-1]) + "-" + parseFloat(domain[i]) + units;
 				if(i==0){
-					DText = "> " + parseFloat(domain[i]);
+					DText = "> " + parseFloat(domain[i]) + units;
 				}
+			if(units=="/gal."){
+				var DText = "$" + parseFloat(domain[i-1]/100) + "-" + parseFloat(domain[i]/100) + units;
+					if(i==0){
+						DText = "> " + "$" + parseFloat(domain[i]/100) + units;
+					}
+			}
 			var RColor = range[i];
 				//we don't have this key yet, so make a new one
 				xDomain[DText] = RColor;
@@ -75,7 +86,7 @@ function legendMaker(domain, range, units, legendTitleText){
 	var legendTitle = legend.append("div").attr("id", "legendTitle");
 		legendTitle.append("strong").text(legendTitleText);
 		if(units!="binary"){
-			legendTitle.append("p").attr("id", "unit").text("in " + units);
+			legendTitle.append("p").attr("id", "unit");
 		}
 		
 	legend.selectAll("legendoption").data(d3.values(xDomain)).enter().append("legendoption")
@@ -83,6 +94,10 @@ function legendMaker(domain, range, units, legendTitleText){
 		    	.append("i").style("background-color", function(d){ return d; });
 	d3.selectAll("legendoption")
 		.append("p").data(d3.keys(xDomain)).text(function(d){ return d; });
+	
+	extraNote.remove();
+	extraNote = d3.select("#underMap").append("div");
+		extraNote.append("p").text("*" + notes);
 	
 	legendExists = true;
 }
@@ -123,15 +138,15 @@ d3.csv("data/transData.csv", function (error, transData) {
 	        myX = myPos[0];    
 	        myY = myPos[1];
 	        
-	        var coords = getScreenCoords(myX, myY, this.getCTM());
+	        //var coords = getScreenCoords(myX, myY, this.getCTM());
 			var a = (isNaN(data[i].gasTaxRate) ? "N/A" : data[i].gasTaxRate);
 			var b = (isNaN(+data[i].yrsSinceInc) ? "N/A" : +data[i].yrsSinceInc);
 			var c = (isNaN(data[i].localGasTax) ? "N/A" : data[i].localGasTax);
 			var d = (isNaN(+data[i].pctBridges) ? "N/A" : +data[i].pctBridges);
 			var e = (isNaN(+data[i].pctRoads) ? "N/A" : +data[i].pctRoads);
 	
-	        myX = coords.x;
-	        myY = coords.y;
+	        //myX = coords.x;
+	        //myY = coords.y;
 	        return toolMove(data[i].stateName, a, b, c, d, e);
 	    });
 	      /*.append("svg:title")
@@ -152,44 +167,69 @@ function update(value){
 	switch (value){
 		case "gasTaxRate": 
 			domain = [20, 25, 30, 35, 100 ];
-			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
-			units = "cents on the gallon";
+			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
+			//research colors: 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'
+			//research blues: 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'
+			units = "/gal.";
 			legendTitleText = "State Gas Tax Rates";
-			console.log("switch went to " + value);
-			legendMaker(domain, range, units, legendTitleText);
+			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 50];
 			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
 			units = "years";
 			legendTitleText = "Time Since A Gas Tax Increase";
-			console.log("switch went to " + value);
-			legendMaker(domain, range, units, legendTitleText);
+			notes = "";
+			legendMaker(domain, range, units, legendTitleText), notes;
 			break;
 		case "localGasTax":
 			domain = [1, 2];
 			range = ['rgb(201, 228, 242)','rgb(255, 166, 1)'];
 			units = "binary";
 			legendTitleText = "States That Permit a Local Gas Tax";
-			console.log("switch went to " + value);
-			legendMaker(domain, range, units, legendTitleText);
+			notes = "";
+			legendMaker(domain, range, units, legendTitleText, notes);
 			break;
 		case "pctBridges":
 			domain = [20, 40, 60, 80, 100];
 			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
-			units = "percent";
+			units = "%";
 			legendTitleText = "Share of County Owned Bridges";
-			console.log("switch went to " + value);
-			legendMaker(domain, range, units, legendTitleText);
+			notes = "";
+			legendMaker(domain, range, units, legendTitleText, notes);
 			break;
 		case "pctRoads":
 			domain = [20, 40, 60, 80, 100];
 			range = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'];
-			units = "percent";
+			units = "%";
 			legendTitleText = "Share of County Owned Roads";
-			console.log("switch went to " + value);
-			legendMaker(domain, range, units, legendTitleText);
+			notes = "";
+			legendMaker(domain, range, units, legendTitleText, notes);
 			break;
+		case "gasTaxType": 
+			domain = [20, 25, 30, 35, 100 ];
+			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
+			units = "";
+			legendTitleText = "State Gas Tax Type";
+			notes = "";
+			legendMaker(domain, range, units, legendTitleText, notes);
+			break;
+		case "localSalesTax": 
+			domain = [20, 25, 30, 35, 100 ];
+			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
+			units = "binary";
+			legendTitleText = "Local Option Sales Tax";
+			notes = "";
+			legendMaker(domain, range, units, legendTitleText, notes);
+			break;
+		case "propTaxLimits": 
+			domain = [20, 25, 30, 35, 100 ];
+			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
+			units = "/gal.";
+			legendTitleText = "State Gas Tax Rates";
+			notes = "Maine and Vermont states do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
+			legendMaker(domain, range, units, legendTitleText, notes);
 	}
 	
 	data.forEach(function(d){
@@ -206,6 +246,7 @@ function update(value){
       .duration(750)
 	  .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} });
 
+	
 }
 
 $("#select button").click(function() {
@@ -244,15 +285,15 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 		localGasTax = (isNaN(paidrank) ? "N/A" : format1(paidrank));
 		pctBridges = format1(sharerank);
 	*/
-	WWidth = $(window).width();
+	WWidth = width;
 
  
-	if (myX < 20) {
-		myX = 20;
+	if (myX < 50) {
+		myX = 50;
 	};
 	
-	if (myY < 20) {
-		myY = 20;
+	if (myY < 50) {
+		myY = 50;
 	};
 	
 	function permitted(localGasTax){
@@ -264,7 +305,7 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 		}
 	};
 	
-	return tooltip.style("top", myY + -0 + "px").style("left", myX +((WWidth-960)/2)- 100 + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Gas tax ($/gallon): <b>$" + Math.round(gasTaxRate)/100 + "</b><br>Last gas tax increase: <b>" + (2013-yrsSinceInc) + "</b><br>County-level gas tax under state law: <b>" + permitted(localGasTax) + "</b><br>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b></div><div class='tipClear'></div> </div>");
+	return tooltip.style("top", myY-20 + "px").style("left", myX + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Gas tax ($/gallon): <b>$" + Math.round(gasTaxRate)/100 + "</b><br>Last gas tax increase: <b>" + (2013-yrsSinceInc) + "</b><br>County-level gas tax under state law: <b>" + permitted(localGasTax) + "</b><br>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b></div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {
