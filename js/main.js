@@ -5,12 +5,13 @@ var width = parseInt(d3.select('.container').style('width')),
 	units = "/gal.",
 	legendTitleText = "State Gas Tax Rates",
 	notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
+	source = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
 	xDomain = {},
 	data,
 	myPos,
 	myX,
 	myY,
-	WWidth;
+	totWidth = parseInt(d3.select('body').style('width'));
 
 var quantByState = {};
 var nameByState = {};
@@ -18,7 +19,7 @@ var linkByState = {};
   
 var legendExists = false;
 var extraNote = d3.select("#underMap").append("div");
-	
+var source = d3.select("#dataSource");
 
 var color = d3.scale.threshold()
 	.domain(domain)
@@ -47,9 +48,9 @@ var g = svg.append("g");
 
 var legend;    
 
-legendMaker(domain, range, units, legendTitleText, notes);
+legendMaker(domain, range, units, legendTitleText, notes, source);
 //Make a key:value pair for Domain and Range in order to automatically generate the legend
-function legendMaker(domain, range, units, legendTitleText, notes){
+function legendMaker(domain, range, units, legendTitleText, notes, source){
 	if(legendExists){
 		legend.remove();
 	}
@@ -64,11 +65,14 @@ function legendMaker(domain, range, units, legendTitleText, notes){
 			var DText = parseFloat(domain[i-1]) + "-" + parseFloat(domain[i]) + units;
 				if(i==0){
 					DText = "> " + parseFloat(domain[i]) + units;
+					if(units=="%"){
+						DText = "0%";
+					}
 				}
 			if(units=="/gal."){
-				var DText = "$" + parseFloat(domain[i-1]/100) + "-" + parseFloat(domain[i]/100) + units;
+				var DText = "$" + parseFloat(domain[i-1]/100).toFixed(2) + "-" + parseFloat(domain[i]/100).toFixed(2) + units;
 					if(i==0){
-						DText = "> " + "$" + parseFloat(domain[i]/100) + units;
+						DText = "> " + "$" + parseFloat(domain[i]/100).toFixed(2) + units;
 					}
 			}
 			var RColor = range[i];
@@ -91,13 +95,23 @@ function legendMaker(domain, range, units, legendTitleText, notes){
 			"Neither property tax rate nor assessment limit": 'rgb(255,204,102)',
 		};
 	}
-	
+	if(units=="gasType"){
+		xDomain = {
+			"Fixed rate": 'rgb(10,132,193)',
+			"Variable rate": 'rgb(255,204,102)',
+			"Fixed and rariable rate": 'rgb(255,166,1)', 
+		};
+	}
+	if(units=="localGasTax"){
+		xDomain = {
+			"Not authorized": 'rgb(255,166,1)',
+			"Authorized but not adopted": 'rgb(96,175,215)',
+			"Adopted": 'rgb(10,132,193)', 
+		};
+	}
 	
 	var legendTitle = legend.append("div").attr("id", "legendTitle");
 		legendTitle.append("strong").text(legendTitleText);
-		if(units!="binary"){
-			legendTitle.append("p").attr("id", "unit");
-		}
 		
 	legend.selectAll("legendoption").data(d3.values(xDomain)).enter().append("legendoption")
 		    	.attr("class", "legendOption")
@@ -178,68 +192,77 @@ function update(value){
 		case "gasTaxRate": 
 			domain = [20, 25, 30, 35, 100 ];
 			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
-			//research colors: 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'
+			//research colors(yellow to blue): 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'
+			//research colors(blue to yellow): 'rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)'
 			//research blues: 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'
 			units = "/gal.";
 			legendTitleText = "State Gas Tax Rates";
-			legendMaker(domain, range, units, legendTitleText, notes);
 			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
+			source = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "yrsSinceInc":
-			domain = [1, 10, 20, 30, 50];
-			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'];
+			domain = [1, 10, 20, 30, 45];
+			range = ['rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(155,155,155)'];
 			units = "years";
 			legendTitleText = "Time Since A Gas Tax Increase";
-			notes = "";
-			legendMaker(domain, range, units, legendTitleText), notes;
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			source = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009. Personal communication with Iowa State Association of Counties, February 10, 2014; Personal communication with County Supervisors Association of Arizona, December 23, 2013; Personal communication with Association of Oregon Counties, February 6, 2014; Personal communication with Association of County Commissioners of Alabama, October 28, 2013. Wenqian Zhu, “Eight states raise their gas tax,” CNN Money (2013) available at http://money.cnn.com/2013/07/02/news/economy/state-gas-tax-increase/ (February 11, 2014).</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "localGasTax":
-			domain = [1, 2];
-			range = ['rgb(201, 228, 242)','rgb(255, 166, 1)'];
-			units = "binary";
+			domain = [1, 2, 3];
+			range = ['rgb(255, 166, 1)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
+			units = "localGasTax";
 			legendTitleText = "States That Permit a Local Gas Tax";
-			notes = "";
-			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			source = "<em>Sources: NACo Analysis of Goldman and Wachs, 2003; American Petroleum Institute (API), State Motor Fuel Taxes, October 2013; Goldman, Todd; Corbett, Sam; Wachs, Martin. Institute of Transportation Studies University of Berkeley. Local Option Transportation Taxes in the United States, Part One: Issues and Trends. March 2001.</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "pctBridges":
-			domain = [20, 40, 60, 80, 100];
-			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'];
+			domain = [.01, 30, 50, 70, 100];
+			range = ['rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "%";
 			legendTitleText = "Share of County Owned Bridges";
-			notes = "";
-			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			source = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "pctRoads":
-			domain = [20, 40, 60, 80, 100];
-			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'];
+			domain = [.01, 30, 50, 70, 100];
+			range = ['rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "%";
 			legendTitleText = "Share of County Owned Roads";
-			notes = "";
-			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			source = "<em>Source: NACo analysis of U.S. Department of Transportation (DOT), FHWA, Highway Performance Monitoring System data, 2011</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "gasTaxType": 
-			domain = [20, 25, 30, 35, 100 ];
-			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
-			units = "";
+			domain = [2, 3, 4];
+			range = ['rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255,166,1)',  'rgb(155, 155, 155)'];
+			units = "gasType";
 			legendTitleText = "State Gas Tax Type";
-			notes = "";
-			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			source = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "localSalesTax": 
-			domain = [20, 25, 30, 35, 100 ];
-			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
-			units = "binary";
+			domain = [1, 2, 3];
+			range = ['rgb(255, 166, 1)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
+			units = "localGasTax";
 			legendTitleText = "Local Option Sales Tax";
-			notes = "";
-			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			source = "<em>Sources: NACo analysis of Goldman, Corbett and Wachs, 2001</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 			break;
 		case "propTaxLimits": 
 			domain = [1, 2, 3, 4, 5];
 			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "categorical";
 			legendTitleText = "State Limits on Property Tax Collection";
-			notes = "Maine and Vermont states do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
-			legendMaker(domain, range, units, legendTitleText, notes);
+			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study. Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
+			source = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009; Personal Communication with Association County Commissioners of Georgia, January 14, 2014; Personal Communication with Wisconsin County Association, January 10, 2014; Personal communication with Police Jury Association of Louisiana, February 11, 2014.</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, source);
 	}
 	
 	data.forEach(function(d){
@@ -295,7 +318,6 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 		localGasTax = (isNaN(paidrank) ? "N/A" : format1(paidrank));
 		pctBridges = format1(sharerank);
 	*/
-	WWidth = width;
 
  
 	if (myX < 50) {
@@ -315,7 +337,7 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 		}
 	};
 	
-	return tooltip.style("top", myY-20 + "px").style("left", myX + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Gas tax ($/gallon): <b>$" + Math.round(gasTaxRate)/100 + "</b><br>Last gas tax increase: <b>" + (2013-yrsSinceInc) + "</b><br>County-level gas tax under state law: <b>" + permitted(localGasTax) + "</b><br>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b></div><div class='tipClear'></div> </div>");
+	return tooltip.style("top", myY-20 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Gas tax ($/gallon): <b>$" + Math.round(gasTaxRate)/100 + "</b><br>Last gas tax increase: <b>" + (2013-yrsSinceInc) + "</b><br>County-level gas tax under state law: <b>" + permitted(localGasTax) + "</b><br>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b></div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {

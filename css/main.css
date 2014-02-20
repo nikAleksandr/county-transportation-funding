@@ -264,7 +264,7 @@ svg:not(:root) {
 	font-weight: 400;
 	line-height:1.2em;
 	margin: 0 auto;
-	padding: .375em .5em .375em .5em;
+	padding: .375em .5em 1em .5em;
 	text-align: center;
 }
 
