@@ -30,33 +30,35 @@
 			        	<p>Hover over a state for additional information on counties' role in transportation.</p>
 			        	<br clear="left"/>
 			        	<img src="apple-touch-icon.png" class="instructionImg">
-			        	<p>Have questions? Hover for definitions, or <a href="mailto:research@naco.org">email us</a>.</p>
+			        	<p>Have questions? Hover over a category for more explanation, or <a href="mailto:research@naco.org">email us</a>.</p>
 			        </div>
 		        </div>
-			<script>
+			
+	        
+	        <!-- Add your site or application content here -->
+			<div id="header">
+				<div id="help">help?</div>
+				<div id="fullReport"><a href="www.naco.org/countytransportation">Read the Full Report</a></div>
+				<script>
 			        	var instructionBox = d3.select("#instructions").style("display", "block");
 			        	
 			        	var closeButton = d3.select('#close').on("click", function(){ instructionBox.style("display", "none"); });
 			        	
 			        	var helpButton = d3.select("#help").on("click", function(){ instructionBox.style("display", "block"); });
 	        
-	        </script>
-	        
-	        <!-- Add your site or application content here -->
-			<div id="header">
-				<div id="help">help?</div>
+	      	  </script>
 				<h1>THE ROAD AHEAD<br/><small>County Transportation Funding and Financing</small></h1>
 				
 				<div id="select" class="btn-group" data-toggle="buttons">
 					
-					<button class="btn" value="pctRoads" type="radio">County Roads</button>
-					<button class="btn" value="pctBridges" type="radio">County Bridges</button>
-					<button class="btn active" value="gasTaxRate" type="radio">State Gas Tax Rate</button>
-					<button class="btn" value="gasTaxType" type="radio">State Gas Tax Type</button>
-					<button class="btn" value="localGasTax" type="radio">Local Gas Tax</button>
-					<button class="btn" value="localSalesTax" type="radio">Local Option Sales Tax</button>
-					<button class="btn" value="yrsSinceInc" type="radio">Last Gas Tax Increase</button>
-					<button class="btn" value="propTaxLimits" type="radio">State Limits on Property Tax</button>
+					<button title="County-owned Roads as a share of Statewide Public Roads in 2011" class="btn" value="pctRoads" type="radio" >County Roads</button>
+					<button title="County-owned Bridges as a share of Statewide Public Bridges in 2012" class="btn" value="pctBridges" type="radio">County Bridges</button>
+					<button title="The gas tax can be imposed at a fixed rate per gallon (cents per gallon) or as a variable rate tax that is tied to inflation, often as a percentage of the price of gasoline. Fixed rate gas taxes are not tied to inflation and are only changed when lawmakers vote to change them" class="btn" value="gasTaxType" type="radio">State Gas Tax Type</button>
+					<button title="Motor fuel taxes are excise taxes imposed on the sale of motor fuels (gasoline, diesel and others)." class="btn active" value="gasTaxRate" type="radio">State Gas Tax Rate</button>
+					<button title="Motor fuel taxes are excise taxes imposed on the sale of motor fuels (gasoline, diesel and others)." class="btn" value="yrsSinceInc" type="radio">Last State Gas Tax Increase</button>
+					<button title="Property tax rate limits are the most common type of property tax limitations and can take several forms. One limits the overall property tax payment to a certain percentage of the property’s market value. Another type restricts mill levies, or freezes mill levies. Local governments can usually override property tax rate limits with voter approval.  Assessment limits how much property values can increase annually for tax purposes. These limits can restrict a county from generating large increases in revenues from rapidly rising property values." class="btn" value="propTaxLimits" type="radio">State Limits on Property Tax</button>
+					<button title="Local option gas tax is a tax collected by a local government on the sale of gasoline within their jurisdiction, if the local government is granted the authority by the state. The revenues from this tax are used for transportation purposes. Besides state authority, the local government needs a local law or voter approval to implement the local option gas tax. To be considered a local option gas tax in this study, the tax must be implemented and collected by a county; statewide and state collected gas taxes are considered state gas taxes." class="btn" value="localGasTax" type="radio">Local Gas Tax</button>
+					<button title="Local option sales tax is a tax collected by a local government on the sale of any taxable goods within its jurisdiction, if the local government is granted the authority by the state. Besides state authority, the local government needs a local law or voter approval to implement the local option sales tax. To be considered a local option sales tax in this study, the tax must be implemented and collected by a county and used for transportation or for general purposes, including transportation. A local option sales tax differs from a local option gas tax through the tax base; the local gas tax only applies to the sale of gasoline, whereas a local option sales tax applies to the sale of any taxable goods within the county." class="btn" value="localSalesTax" type="radio">Local Option Sales Tax</button>
 				</div>
 			
 			</div>
@@ -67,7 +69,7 @@
 	        <script src="js/plugins.js"></script>
 	        <script src="js/main.js"></script>
 			
-			<div id="IE-update"><p>It looks like you may be using an <strong>outdated</strong> browser. In order to view this interactive, please <a href="http://browsehappy.com/">upgrade your browser</a></p></div>
+			<div class="browsehappy" IE-update"><p>It looks like you may be using an <strong>outdated</strong> browser. In order to view this interactive, please <a href="http://browsehappy.com/">upgrade your browser</a></p></div>
 			<script>
 				d3.select("#IE-update").attr("class", "hidden");
 			</script>
@@ -83,15 +85,14 @@
 	        <div id="underMap">
 		        	<p id="byline">Interactive by Nicholas Lyell</p>
 		        	<p id="dataSource"></p>
-		        	<p id="webinar">Want to see why this tool matters to you and <b>your county</b>?  Register for our <a href="#">free webinar</a>. </p>
+		        	<!--<p id="webinar">Want to see why this tool matters to you and <b>your county</b>?  Register for our <a href="#">free webinar</a>. </p>-->
 		        	<p id="dataNotes" ><strong>Notes: </strong>Transportation refers only to public roads and
 						bridges for the purpose of this study. This report
 						does not analyze funding and financing for county
 						transit, air, rail or water transportation systems as
 						these transportation assets often have different
 						ownership and funding structures than roads and
-						bridges.  Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not
-						included in this study.
+						bridges.
 					</p>
 	        </div>
    		</div>

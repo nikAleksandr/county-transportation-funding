@@ -84,17 +84,15 @@ textarea {
    ========================================================================== */
 
 .browsehappy {
-    margin: 0.2em 0;
+	font-size: 2em;
+	margin: 0.2em auto;
+	width: 75%;
     background: #ccc;
     color: #000;
     padding: 0.2em 0;
 }
 #IE-update{
-	font-size: 2em;
-	margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
+
 }
 /* ==========================================================================
    Author's custom styles
@@ -122,6 +120,7 @@ body {
 }
 #dataSource{
 	font-size: .8em;
+	clear: both;
 }
 
 #instructions{
@@ -164,12 +163,15 @@ body {
 	cursor: pointer;
 }
 
-#close, #help {
+#close, #help, #fullReport{
 	color:rgb(0,64,112);
 	font-size: 1em;
 	position: relative;
 	float: right;
 	cursor: pointer;
+	text-align: right;
+	clear: right;
+	padding-right: .5em;
 }
 
 #close:hover, #instructionText a:hover, #help:hover{
