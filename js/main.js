@@ -1,26 +1,31 @@
-var width = parseInt(d3.select('.container').style('width')),
+var selectedCat = "gasTaxRate",
+	width = parseInt(d3.select('.container').style('width')),
 	height = width/1.92,
-	//Set the default switch information depending on which button you want started selected on page load
+/*	//Set the default switch information depending on which button you want started selected on page load
 			domain = [20, 25, 30, 35, 100 ],
 			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(155,155,155)'],
 			units = "/gal.",
 			legendTitleText = "State Gas Tax Rates as of February 2014",
 			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
 			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>",
+*/
 	xDomain = {},
 	data,
 	myPos,
 	myX,
 	myY,
-	totWidth = parseInt(d3.select('body').style('width'));
+	totWidth = parseInt(d3.select('body').style('width')),
+	extraNote = d3.select("#underMap").append("div"),
+	source = d3.select("#dataSource").append("div").attr("id", "source");
+
+chooseCat(selectedCat);
 
 var quantByState = {};
 var nameByState = {};
 var linkByState = {};
   
 var legendExists = false;
-var extraNote = d3.select("#underMap").append("div");
-var source = d3.select("#dataSource").append("div").attr("id", "source");
+
 
 var color = d3.scale.threshold()
 	.domain(domain)
@@ -200,11 +205,11 @@ d3.csv("data/transData.csv", function (error, transData) {
 	source.remove();
 	source = d3.select("#dataSource").append("div").attr("id", "source");
 		source.html(sourceText);
+		
+	update(selectedCat);
 });
 
-
-function update(value){
-	
+function chooseCat(value){
 	//set up a switch that sets domain, range, and other cross-data variables based on their button selection
 	switch (value){
 		case "gasTaxRate": 
@@ -217,7 +222,6 @@ function update(value){
 			legendTitleText = "State Gas Tax Rates as of February 2014";
 			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
 			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 45];
@@ -226,7 +230,6 @@ function update(value){
 			legendTitleText = "Number of Years since Last State Gas Tax Increase, as of February 2014";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study. NACo recalculated the number of years since last increase based on the current year 2014 and updated some of the years of last increase from the National Governors Association (NGA), How States and Territories Fund Transportation, 2009.";
 			sourceText = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009. Personal communication with Iowa State Association of Counties, February 10, 2014; Personal communication with County Supervisors Association of Arizona, December 23, 2013; Personal communication with Association of Oregon Counties, February 6, 2014; Personal communication with Association of County Commissioners of Alabama, October 28, 2013. Wenqian Zhu, “Eight states raise their gas tax,” CNN Money (2013) available at http://money.cnn.com/2013/07/02/news/economy/state-gas-tax-increase/ (February 11, 2014).</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "localGasTax":
 			domain = [1, 2, 3];
@@ -235,7 +238,6 @@ function update(value){
 			legendTitleText = "States Allowing Counties to Collect Local Option Gas Taxes, as of February 2014";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
 			sourceText = "<em>Sources: NACo Analysis of Goldman and Wachs, 2003; American Petroleum Institute (API), State Motor Fuel Taxes, October 2013; Goldman, Todd; Corbett, Sam; Wachs, Martin. Institute of Transportation Studies University of Berkeley. Local Option Transportation Taxes in the United States, Part One: Issues and Trends. March 2001.</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "pctBridges":
 			domain = [.01, 30, 50, 70, 100];
@@ -244,7 +246,6 @@ function update(value){
 			legendTitleText = "County Owned Bridge, Share of Statewide Bridges, 2012";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
 			sourceText = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "pctRoads":
 			domain = [.01, 30, 50, 70, 100];
@@ -253,7 +254,6 @@ function update(value){
 			legendTitleText = "County Owned Roads, Share of Statewide Public Roads, 2011";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
 			sourceText = "<em>Source: NACo analysis of U.S. Department of Transportation (DOT), FHWA, Highway Performance Monitoring System data, 2011</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "gasTaxType": 
 			domain = [2, 3, 4];
@@ -262,7 +262,6 @@ function update(value){
 			legendTitleText = "State Gas Tax Rates (Fixed or Variable) as of February 2014";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
 			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "localSalesTax": 
 			domain = [1, 2, 3];
@@ -271,7 +270,6 @@ function update(value){
 			legendTitleText = "County Local Option Sales Taxes for Transportation, as of February 2014";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
 			sourceText = "<em>Sources: NACo analysis of Goldman, Corbett and Wachs, 2001</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "propTaxLimits": 
 			domain = [1, 2, 3, 4, 5];
@@ -280,8 +278,14 @@ function update(value){
 			legendTitleText = "State Imposed Limitations on County Property Tax Rates and Property Assessment, as of February 2014";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study. Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
 			sourceText = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009; Personal Communication with Association County Commissioners of Georgia, January 14, 2014; Personal Communication with Wisconsin County Association, January 10, 2014; Personal communication with Police Jury Association of Louisiana, February 11, 2014.</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
+			break;			
 	}
+}
+
+function update(value){
+	
+	chooseCat(value);
+		legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 	
 	data.forEach(function(d){
 		quantByState[d.id] = d[value]; 
@@ -303,8 +307,14 @@ function update(value){
 $("#select button").click(function() {
 	$("#select button").removeClass("active");
 	//$(this).addClass("btn active");
+	selectedCat = this.value;
 	update(this.value);
 });
+
+window.onresize = function(){
+	width = parseInt(d3.select(".container").style("width"));
+	update(selectedCat);
+};
 
 //
 
@@ -371,3 +381,4 @@ function getScreenCoords(x, y, ctm) {
   var yn = ctm.f + y*ctm.d;
   return { x: xn, y: yn };
 }
+
