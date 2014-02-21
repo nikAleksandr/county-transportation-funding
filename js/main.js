@@ -1,6 +1,7 @@
 window.addEventListener('resize', function(event){
-	width = parseInt(d3.select(".container").style("width"));
-	height = width/1.92;
+	width = parseInt(d3.select(".container").style("width")),
+	height = width/1.92,
+	totWidth = parseInt(d3.select('body').style('width'));
 	svg.remove();
 	mapMaker();
 });
@@ -51,7 +52,7 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 
 	xDomain = {};
 		for(var i=0; i< domain.length; i++){
-			var DText = parseFloat(domain[i-1]+1) + "-" + parseFloat(domain[i]) + units;
+			var DText = parseFloat(domain[i-1]+.1) + "-" + parseFloat(domain[i]) + units;
 				if(i==0){
 					DText = "≤ " + parseFloat(domain[i]) + units;
 					if(units=="%"){
@@ -319,8 +320,10 @@ $("#select button").click(function() {
 
 function clicked(d){
 	console.log(linkByState[d.id]);
-	
-	window.open('profiles/State_Summary_' + linkByState[d.id] + '.pdf', '_blank');
+	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT"){}
+	else{
+		window.open('profiles/State_Summary_' + linkByState[d.id] + '.pdf', '_blank');
+	}
 }
 function toolOver(v, thepath) {
 	d3.select(thepath).style({
@@ -340,12 +343,11 @@ function toolOut(m, thepath) {
 
 function toolMove(state, gasTaxRate, yrsSinceInc, pctBridges, pctRoads) {
 		
-		gasTaxRate = ((gasTaxRate==101) ? "N/A" : gasTaxRate);
-		yrsSinceInc = ((yrsSinceInc==101) ? "N/A" : yrsSinceInc);
-		pctBridges = ((pctBridges==101) ? "N/A" : pctBridges);
-		pctRoads = ((pctRoads==101) ? "N/A" : pctRoads);
+		gasTaxRate = ((gasTaxRate==101) ? "N/A" : "$" + (Math.round(gasTaxRate)/100).toFixed(2));
+		yrsSinceInc = ((yrsSinceInc==101) ? "N/A" : (2014-yearInc(yrsSinceInc)));
+		pctBridges = ((pctBridges==101) ? "N/A" : Math.round(pctBridges*10)/10 + "%");
+		pctRoads = ((pctRoads==101) ? "N/A" : Math.round(pctRoads*10)/10 + "%");
 	
-
  
 	if (myX < 50) {
 		myX = 50;
@@ -372,7 +374,7 @@ function toolMove(state, gasTaxRate, yrsSinceInc, pctBridges, pctRoads) {
 			return yrsSinceInc;
 		}
 	}
-	return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned roads: <b>" + Math.round(pctRoads*10)/10 + "%</b>" + "<br/>State gas tax rate ($/gallon): <b>$" + (Math.round(gasTaxRate)/100).toFixed(2) + "</b><br>Last state gas tax increase: <b>" + (2014-yearInc(yrsSinceInc))  + "</div><div class='tipClear'></div> </div>");
+	return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned bridges: <b>" + pctBridges + "</b><br>County-owned roads: <b>" + pctRoads + "</b>" + "<br/>State gas tax rate ($/gallon): <b>" + gasTaxRate + "</b><br>Last state gas tax increase: <b>" + yrsSinceInc  + "</div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {

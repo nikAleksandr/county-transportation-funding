@@ -5,7 +5,7 @@ id,stateAbbrev,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads,
 5,AR,19,Arkansas,13,0,34,66,4,1,2
 6,CA,52.47,California,0,1,29,37,4,3,2
 8,CO,22,Colorado,23,0,40,66,2,1,2
-9,CT,49.3,Connecticut,101,101,101,101,101,101,101
+9,CT,101,Connecticut,101,101,101,101,101,101,101
 10,DE,23.5,Delaware,19,0,0,0,1,1,0
 11,DC,23,District of Columbia,,101,1,0,101,101,101
 12,FL,36.03,Florida,0,2,34,61,4,3,2
@@ -28,7 +28,7 @@ id,stateAbbrev,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads,
 30,MT,27.75,Montana,20,1,37,58,2,1,1
 31,NE,19.63,Nebraska,0,0,72,65,2,3,2
 32,NV,37.75,Nevada,22,2,20,65,4,1,2
-33,NH,14.5,New Hamshire,23,0,0,0,0,1,0
+33,NH,14.5,New Hamshire,23,0,0.04,0,0,1,0
 34,NJ,18.88,New Jersey,26,0,40,17,3,1,0
 35,NM,49.57,New Mexico,21,1,9,58,4,1,2
 36,NY,23,New York,5,0,39,23,4,3,2
@@ -38,7 +38,7 @@ id,stateAbbrev,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads,
 40,OK,17,Oklahoma,27,0,59,70,4,1,2
 41,OR,31.07,Oregon,2,2,45,56,4,1,0
 42,PA,41.8,Pennsylvania,0,0,13,2,2,2,0
-44,RI,33,Rhode Island,101,101,101,101,101,101,101
+44,RI,101,Rhode Island,101,101,101,101,101,101,101
 45,SC,16.75,South Carolina,27,0,8,31,3,1,2
 46,SD,22,South Dakota,15,0,63,43,2,1,1
 47,TN,21.4,Tennessee,25,1,48,64,1,1,2
