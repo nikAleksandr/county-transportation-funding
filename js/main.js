@@ -1,14 +1,13 @@
+window.addEventListener('resize', function(event){
+	width = parseInt(d3.select(".container").style("width"));
+	height = width/1.92;
+	svg.remove();
+	mapMaker();
+});
+
 var selectedCat = "gasTaxRate",
 	width = parseInt(d3.select('.container').style('width')),
 	height = width/1.92,
-/*	//Set the default switch information depending on which button you want started selected on page load
-			domain = [20, 25, 30, 35, 100 ],
-			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(155,155,155)'],
-			units = "/gal.",
-			legendTitleText = "State Gas Tax Rates as of February 2014",
-			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
-			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>",
-*/
 	xDomain = {},
 	data,
 	myPos,
@@ -16,7 +15,11 @@ var selectedCat = "gasTaxRate",
 	myY,
 	totWidth = parseInt(d3.select('body').style('width')),
 	extraNote = d3.select("#underMap").append("div"),
-	source = d3.select("#dataSource").append("div").attr("id", "source");
+	source = d3.select("#dataSource").append("div").attr("id", "source"),
+	projection,
+	path,
+	svg,
+	g;
 
 chooseCat(selectedCat);
 
@@ -26,31 +29,11 @@ var linkByState = {};
   
 var legendExists = false;
 
-
 var color = d3.scale.threshold()
 	.domain(domain)
 	.range(range);
 
-var projection = d3.geo.albersUsa()
-	    .scale(width*1.1)
-	    .translate([width / 2, height / 2]);
-	
-var path = d3.geo.path()
-    .projection(projection);
-
-var svg = d3.select("#map").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-svg.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height);
-    //.on("click", clicked);
-
 var tooltip = d3.select("#map").append("div").attr("id", "tt").style("z-index", "10").style("position", "absolute").style("visibility", "hidden");
-
-var g = svg.append("g");
 
 var legend;   
 
@@ -141,74 +124,95 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	
 	legendExists = true;
 }
-
-
-d3.csv("data/transData.csv", function (error, transData) {
-	data = transData;
-
-  transData.forEach(function(d) { 
-  	quantByState[d.id] = +d.gasTaxRate; 
-  	nameByState[d.id] = d.stateName;
-  	linkByState[d.id] = d.stateAbbrev;
-  });
-  
-
-	d3.json("us.json", function(error, us) {
-	  g.append("g")
-	      .attr("class", "states")
-	    .selectAll("path")
-	      .data(topojson.feature(us, us.objects.states).features)
-	    .enter().append("path")
-	      .attr("d", path)
-	      .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} })
-	      .on("click", clicked)
-	      .on("mouseover", function (d) {
-		        return toolOver(d, this);
-	    }).on("mouseout", function (d) {
-	        return toolOut(d, this);
-	    }).on("mousemove", function (d, i) {
-	        var filtered;
-	        for (var i = 0; i < data.length; i++) {
-	            if (data[i].id == d.id) {
-	                filtered = data[i];
-	                break;
-	            }
-	        }
-	        myPos = d3.mouse(this);
-	        myX = myPos[0];    
-	        myY = myPos[1];
-	        
-	        //var coords = getScreenCoords(myX, myY, this.getCTM());
-			var a = (isNaN(data[i].gasTaxRate) ? "N/A" : data[i].gasTaxRate);
-			var b = (isNaN(+data[i].yrsSinceInc) ? "N/A" : +data[i].yrsSinceInc);
-			var c = (isNaN(+data[i].pctBridges) ? "N/A" : +data[i].pctBridges);
-			var d = (isNaN(+data[i].pctRoads) ? "N/A" : +data[i].pctRoads);
+mapMaker();
+function mapMaker(){
 	
-	        //myX = coords.x;
-	        //myY = coords.y;
-	        return toolMove(data[i].stateName, a, b, c, d);
-	    });
-	      /*.append("svg:title")
-	      	.text(function(d) {return nameByState[d.id]; });
-	      */
-	     
-	  g.append("path")
-	      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-	      .attr("id", "state-borders")
-	      .attr("d", path);
+	projection = d3.geo.albersUsa()
+	    .scale(width*1.1)
+	    .translate([width / 2, height / 2]);
+	
+	path = d3.geo.path()
+	    .projection(projection);
+	
+	svg = d3.select("#map").append("svg")
+	    .attr("width", width)
+	    .attr("height", height);
+	
+	svg.append("rect")
+	    .attr("class", "background")
+	    .attr("width", width)
+	    .attr("height", height);
+	    //.on("click", clicked);
+	
+	g = svg.append("g");
+	
+	
+	d3.csv("data/transData.csv", function (error, transData) {
+		data = transData;
+	
+	  transData.forEach(function(d) { 
+	  	quantByState[d.id] = +d.gasTaxRate; 
+	  	nameByState[d.id] = d.stateName;
+	  	linkByState[d.id] = d.stateAbbrev;
+	  });
+	  
+	
+		d3.json("us.json", function(error, us) {
+		  g.append("g")
+		      .attr("class", "states")
+		    .selectAll("path")
+		      .data(topojson.feature(us, us.objects.states).features)
+		    .enter().append("path")
+		      .attr("d", path)
+		      .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} })
+		      .on("click", clicked)
+		      .on("mouseover", function (d) {
+			        return toolOver(d, this);
+		    }).on("mouseout", function (d) {
+		        return toolOut(d, this);
+		    }).on("mousemove", function (d, i) {
+		        var filtered;
+		        for (var i = 0; i < data.length; i++) {
+		            if (data[i].id == d.id) {
+		                filtered = data[i];
+		                break;
+		            }
+		        }
+		        myPos = d3.mouse(this);
+		        myX = myPos[0];    
+		        myY = myPos[1];
+		        
+		        //var coords = getScreenCoords(myX, myY, this.getCTM());
+				var a = (isNaN(data[i].gasTaxRate) ? "N/A" : data[i].gasTaxRate);
+				var b = (isNaN(+data[i].yrsSinceInc) ? "N/A" : +data[i].yrsSinceInc);
+				var c = (isNaN(+data[i].pctBridges) ? "N/A" : +data[i].pctBridges);
+				var d = (isNaN(+data[i].pctRoads) ? "N/A" : +data[i].pctRoads);
+		
+		        //myX = coords.x;
+		        //myY = coords.y;
+		        return toolMove(data[i].stateName, a, b, c, d);
+		    });
+		      /*.append("svg:title")
+		      	.text(function(d) {return nameByState[d.id]; });
+		      */
+		     
+		  g.append("path")
+		      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+		      .attr("id", "state-borders")
+		      .attr("d", path);
+		});
+		
+		extraNote.remove();
+		extraNote = d3.select("#underMap").append("div");
+			extraNote.append("p").text("*" + notes);
+			
+		source.remove();
+		source = d3.select("#dataSource").append("div").attr("id", "source");
+			source.html(sourceText);
+			
+		update(selectedCat);
 	});
-	
-	extraNote.remove();
-	extraNote = d3.select("#underMap").append("div");
-		extraNote.append("p").text("*" + notes);
-		
-	source.remove();
-	source = d3.select("#dataSource").append("div").attr("id", "source");
-		source.html(sourceText);
-		
-	update(selectedCat);
-});
-
+};
 function chooseCat(value){
 	//set up a switch that sets domain, range, and other cross-data variables based on their button selection
 	switch (value){
@@ -310,11 +314,6 @@ $("#select button").click(function() {
 	selectedCat = this.value;
 	update(this.value);
 });
-
-window.onresize = function(){
-	width = parseInt(d3.select(".container").style("width"));
-	update(selectedCat);
-};
 
 //
 
