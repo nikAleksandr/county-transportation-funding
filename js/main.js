@@ -330,12 +330,12 @@ function toolOut(m, thepath) {
 
 
 function toolMove(state, gasTaxRate, yrsSinceInc, pctBridges, pctRoads) {
-	/*	
-		gasTaxRate = (isNaN(paid) ? "N/A" : format1(paid));
-		yrsSinceInc = (isNaN(val) ? "N/A" : format2(val));
-		localGasTax = (isNaN(paidrank) ? "N/A" : format1(paidrank));
-		pctBridges = format1(sharerank);
-	*/
+		
+		gasTaxRate = ((gasTaxRate==101) ? "N/A" : gasTaxRate);
+		yrsSinceInc = ((yrsSinceInc==101) ? "N/A" : yrsSinceInc);
+		pctBridges = ((pctBridges==101) ? "N/A" : pctBridges);
+		pctRoads = ((pctRoads==101) ? "N/A" : pctRoads);
+	
 
  
 	if (myX < 50) {
