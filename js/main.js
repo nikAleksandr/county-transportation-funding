@@ -5,7 +5,7 @@ var width = parseInt(d3.select('.container').style('width')),
 	units = "/gal.",
 	legendTitleText = "State Gas Tax Rates",
 	notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
-	source = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.",
+	sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>",
 	xDomain = {},
 	data,
 	myPos,
@@ -19,7 +19,7 @@ var linkByState = {};
   
 var legendExists = false;
 var extraNote = d3.select("#underMap").append("div");
-var source = d3.select("#dataSource");
+var source = d3.select("#dataSource").append("div").attr("id", "source");
 
 var color = d3.scale.threshold()
 	.domain(domain)
@@ -48,9 +48,9 @@ var g = svg.append("g");
 
 var legend;    
 
-legendMaker(domain, range, units, legendTitleText, notes, source);
+legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 //Make a key:value pair for Domain and Range in order to automatically generate the legend
-function legendMaker(domain, range, units, legendTitleText, notes, source){
+function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	if(legendExists){
 		legend.remove();
 	}
@@ -122,6 +122,10 @@ function legendMaker(domain, range, units, legendTitleText, notes, source){
 	extraNote.remove();
 	extraNote = d3.select("#underMap").append("div");
 		extraNote.append("p").text("*" + notes);
+		
+	source.remove();
+	source = d3.select("#dataSource").append("div").attr("id", "source");
+		source.html(sourceText);
 	
 	legendExists = true;
 }
@@ -191,24 +195,24 @@ function update(value){
 	switch (value){
 		case "gasTaxRate": 
 			domain = [20, 25, 30, 35, 100 ];
-			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'];
+			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
 			//research colors(yellow to blue): 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'
 			//research colors(blue to yellow): 'rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)'
 			//research blues: 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'
 			units = "/gal.";
 			legendTitleText = "State Gas Tax Rates";
 			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
-			source = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 45];
-			range = ['rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(155,155,155)'];
+			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', "rgb(155,155,155)"];
 			units = "years";
 			legendTitleText = "Time Since A Gas Tax Increase";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
-			source = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009. Personal communication with Iowa State Association of Counties, February 10, 2014; Personal communication with County Supervisors Association of Arizona, December 23, 2013; Personal communication with Association of Oregon Counties, February 6, 2014; Personal communication with Association of County Commissioners of Alabama, October 28, 2013. Wenqian Zhu, “Eight states raise their gas tax,” CNN Money (2013) available at http://money.cnn.com/2013/07/02/news/economy/state-gas-tax-increase/ (February 11, 2014).</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009. Personal communication with Iowa State Association of Counties, February 10, 2014; Personal communication with County Supervisors Association of Arizona, December 23, 2013; Personal communication with Association of Oregon Counties, February 6, 2014; Personal communication with Association of County Commissioners of Alabama, October 28, 2013. Wenqian Zhu, “Eight states raise their gas tax,” CNN Money (2013) available at http://money.cnn.com/2013/07/02/news/economy/state-gas-tax-increase/ (February 11, 2014).</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "localGasTax":
 			domain = [1, 2, 3];
@@ -216,8 +220,8 @@ function update(value){
 			units = "localGasTax";
 			legendTitleText = "States That Permit a Local Gas Tax";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
-			source = "<em>Sources: NACo Analysis of Goldman and Wachs, 2003; American Petroleum Institute (API), State Motor Fuel Taxes, October 2013; Goldman, Todd; Corbett, Sam; Wachs, Martin. Institute of Transportation Studies University of Berkeley. Local Option Transportation Taxes in the United States, Part One: Issues and Trends. March 2001.</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Sources: NACo Analysis of Goldman and Wachs, 2003; American Petroleum Institute (API), State Motor Fuel Taxes, October 2013; Goldman, Todd; Corbett, Sam; Wachs, Martin. Institute of Transportation Studies University of Berkeley. Local Option Transportation Taxes in the United States, Part One: Issues and Trends. March 2001.</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "pctBridges":
 			domain = [.01, 30, 50, 70, 100];
@@ -225,8 +229,8 @@ function update(value){
 			units = "%";
 			legendTitleText = "Share of County Owned Bridges";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
-			source = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "pctRoads":
 			domain = [.01, 30, 50, 70, 100];
@@ -234,8 +238,8 @@ function update(value){
 			units = "%";
 			legendTitleText = "Share of County Owned Roads";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
-			source = "<em>Source: NACo analysis of U.S. Department of Transportation (DOT), FHWA, Highway Performance Monitoring System data, 2011</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Source: NACo analysis of U.S. Department of Transportation (DOT), FHWA, Highway Performance Monitoring System data, 2011</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "gasTaxType": 
 			domain = [2, 3, 4];
@@ -243,8 +247,8 @@ function update(value){
 			units = "gasType";
 			legendTitleText = "State Gas Tax Type";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
-			source = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "localSalesTax": 
 			domain = [1, 2, 3];
@@ -252,8 +256,8 @@ function update(value){
 			units = "localGasTax";
 			legendTitleText = "Local Option Sales Tax";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
-			source = "<em>Sources: NACo analysis of Goldman, Corbett and Wachs, 2001</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Sources: NACo analysis of Goldman, Corbett and Wachs, 2001</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 			break;
 		case "propTaxLimits": 
 			domain = [1, 2, 3, 4, 5];
@@ -261,8 +265,8 @@ function update(value){
 			units = "categorical";
 			legendTitleText = "State Limits on Property Tax Collection";
 			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study. Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
-			source = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009; Personal Communication with Association County Commissioners of Georgia, January 14, 2014; Personal Communication with Wisconsin County Association, January 10, 2014; Personal communication with Police Jury Association of Louisiana, February 11, 2014.</em>";
-			legendMaker(domain, range, units, legendTitleText, notes, source);
+			sourceText = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009; Personal Communication with Association County Commissioners of Georgia, January 14, 2014; Personal Communication with Wisconsin County Association, January 10, 2014; Personal communication with Police Jury Association of Louisiana, February 11, 2014.</em>";
+			legendMaker(domain, range, units, legendTitleText, notes, sourceText);
 	}
 	
 	data.forEach(function(d){
