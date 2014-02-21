@@ -218,7 +218,7 @@ function chooseCat(value){
 	//set up a switch that sets domain, range, and other cross-data variables based on their button selection
 	switch (value){
 		case "gasTaxRate": 
-			domain = [20, 25, 30, 35, 100 ];
+			domain = [5, 15, 25, 35, 45 ];
 			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
 			//research colors(yellow to blue): 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)'
 			//research colors(blue to yellow): 'rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)'
