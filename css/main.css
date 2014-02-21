@@ -108,9 +108,14 @@ body {
 #underMap {
 	margin: 0 auto;
 	text-align: left;
+	font-size: .9em;
 }
 #underMap a{
 	color: #FFCC66;
+}
+#summary{
+	text-align:left;
+	padding: 1em 0;
 }
 #byline{
 	color: rgb(0,64,112);
@@ -123,7 +128,7 @@ body {
 	clear: both;
 }
 
-#instructions{
+#instructions, #fullDefs{
 	display:none;
 	text-align: left;
 	width: 50%;
@@ -150,7 +155,7 @@ body {
 	display: none;
 }
 
-#instructionText{
+#instructionText, #fullDefsText{
 	width: 100%;
 	display: inline-block;
 	float: left;
@@ -158,12 +163,17 @@ body {
 	padding-top: 2%;
 }
 
-#instructionText a{
+#instructionText a, #fullDefsText a{
 	color:rgb(0,64,112);
 	cursor: pointer;
 }
 
-#close, #help, #fullReport{
+#fullDefsButton{
+	color:rgb(0,64,112);
+	font-size: 1em;
+	cursor: pointer;
+}
+#close, #close2, #help, #fullReport{
 	color:rgb(0,64,112);
 	font-size: 1em;
 	position: relative;
@@ -174,7 +184,7 @@ body {
 	padding-right: .5em;
 }
 
-#close:hover, #instructionText a:hover, #help:hover{
+#close:hover, #close2:hover, #instructionText a:hover, #help:hover{
 	text-decoration:underline;
 }
 

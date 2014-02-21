@@ -224,24 +224,24 @@ function chooseCat(value){
 			//research colors(blue to yellow): 'rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)'
 			//research blues: 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'
 			units = "/gal.";
-			legendTitleText = "State Gas Tax Rates as of February 2014";
+			legendTitleText = "State Excise Tax on Gasoline, as of January 2014";
 			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
-			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
+			sourceText = "<em>Source: American Petroluem Institute, 2014</em>";
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 45];
 			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', "rgb(155,155,155)"];
 			units = " years";
-			legendTitleText = "Number of Years since Last State Gas Tax Increase, as of February 2014";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study. NACo recalculated the number of years since last increase based on the current year 2014 and updated some of the years of last increase from the National Governors Association (NGA), How States and Territories Fund Transportation, 2009.";
-			sourceText = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009. Personal communication with Iowa State Association of Counties, February 10, 2014; Personal communication with County Supervisors Association of Arizona, December 23, 2013; Personal communication with Association of Oregon Counties, February 6, 2014; Personal communication with Association of County Commissioners of Alabama, October 28, 2013. Wenqian Zhu, “Eight states raise their gas tax,” CNN Money (2013) available at http://money.cnn.com/2013/07/02/news/economy/state-gas-tax-increase/ (February 11, 2014).</em>";
+			legendTitleText = "Number of Years Since the Last Increase of the State Gas Tax, as of February 2014";
+			notes = "NACo recalculated the number of years since the last increase of the state gas tax based on the current year 2014 and updated some of the years of the last increase of the state gas tax from the National Governors Association (NGA), How States and Territories Fund Transportation, 2009.";
+			sourceText = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009.</em>";
 			break;
 		case "localGasTax":
 			domain = [1, 2, 3];
 			range = ['rgb(255, 166, 1)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
 			units = "localGasTax";
 			legendTitleText = "States Allowing Counties to Collect Local Option Gas Taxes, as of February 2014";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			notes = "";
 			sourceText = "<em>Sources: NACo Analysis of Goldman and Wachs, 2003; American Petroleum Institute (API), State Motor Fuel Taxes, October 2013; Goldman, Todd; Corbett, Sam; Wachs, Martin. Institute of Transportation Studies University of Berkeley. Local Option Transportation Taxes in the United States, Part One: Issues and Trends. March 2001.</em>";
 			break;
 		case "pctBridges":
@@ -249,7 +249,7 @@ function chooseCat(value){
 			range = ['rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "%";
 			legendTitleText = "County Owned Bridge, Share of Statewide Bridges, 2012";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			notes = "";
 			sourceText = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
 			break;
 		case "pctRoads":
@@ -257,15 +257,15 @@ function chooseCat(value){
 			range = ['rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "%";
 			legendTitleText = "County Owned Roads, Share of Statewide Public Roads, 2011";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			notes = "";
 			sourceText = "<em>Source: NACo analysis of U.S. Department of Transportation (DOT), FHWA, Highway Performance Monitoring System data, 2011</em>";
 			break;
 		case "gasTaxType": 
 			domain = [2, 3, 4];
 			range = ['rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255,166,1)',  'rgb(155, 155, 155)'];
 			units = "gasType";
-			legendTitleText = "State Gas Tax Rates (Fixed or Variable) as of February 2014";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			legendTitleText = "State Gas Tax Rates (Fixed or Variable), as of February 2014";
+			notes = "";
 			sourceText = "<em>Source: NACo analysis and update of Institute for Taxation and Economic Policy (ITEP), 2011</em>";
 			break;
 		case "localSalesTax": 
@@ -273,7 +273,7 @@ function chooseCat(value){
 			range = ['rgb(255, 166, 1)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
 			units = "localGasTax";
 			legendTitleText = "County Local Option Sales Taxes for Transportation, as of February 2014";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study.";
+			notes = "";
 			sourceText = "<em>Sources: NACo analysis of Goldman, Corbett and Wachs, 2001</em>";
 			break;
 		case "propTaxLimits": 
@@ -281,8 +281,8 @@ function chooseCat(value){
 			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "categorical";
 			legendTitleText = "State Imposed Limitations on County Property Tax Rates and Property Assessment, as of February 2014";
-			notes = "Connecticut and Rhode Island are marked in gray because they do not have county governments. They are not included in this study. Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
-			sourceText = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009; Personal Communication with Association County Commissioners of Georgia, January 14, 2014; Personal Communication with Wisconsin County Association, January 10, 2014; Personal communication with Police Jury Association of Louisiana, February 11, 2014.</em>";
+			notes = "Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
+			sourceText = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009.</em>";
 			break;			
 	}
 }
