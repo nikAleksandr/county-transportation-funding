@@ -169,13 +169,12 @@ d3.csv("data/transData.csv", function (error, transData) {
 	        //var coords = getScreenCoords(myX, myY, this.getCTM());
 			var a = (isNaN(data[i].gasTaxRate) ? "N/A" : data[i].gasTaxRate);
 			var b = (isNaN(+data[i].yrsSinceInc) ? "N/A" : +data[i].yrsSinceInc);
-			var c = (isNaN(data[i].localGasTax) ? "N/A" : data[i].localGasTax);
-			var d = (isNaN(+data[i].pctBridges) ? "N/A" : +data[i].pctBridges);
-			var e = (isNaN(+data[i].pctRoads) ? "N/A" : +data[i].pctRoads);
+			var c = (isNaN(+data[i].pctBridges) ? "N/A" : +data[i].pctBridges);
+			var d = (isNaN(+data[i].pctRoads) ? "N/A" : +data[i].pctRoads);
 	
 	        //myX = coords.x;
 	        //myY = coords.y;
-	        return toolMove(data[i].stateName, a, b, c, d, e);
+	        return toolMove(data[i].stateName, a, b, c, d);
 	    });
 	      /*.append("svg:title")
 	      	.text(function(d) {return nameByState[d.id]; });
@@ -281,7 +280,7 @@ function update(value){
 	g.selectAll(".states path")
 	  .transition()
       .duration(750)
-	  .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} });
+	  .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "rgb(155,155,155)";} });
 
 	
 }
@@ -315,7 +314,7 @@ function toolOut(m, thepath) {
 };
 
 
-function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRoads) {
+function toolMove(state, gasTaxRate, yrsSinceInc, pctBridges, pctRoads) {
 	/*	
 		gasTaxRate = (isNaN(paid) ? "N/A" : format1(paid));
 		yrsSinceInc = (isNaN(val) ? "N/A" : format2(val));
@@ -332,7 +331,7 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 		myY = 50;
 	};
 	
-	function permitted(localGasTax){
+	/*function permitted(localGasTax){
 		if(localGasTax==1){
 			return "Permitted";
 		}
@@ -340,8 +339,16 @@ function toolMove(state, gasTaxRate, yrsSinceInc, localGasTax, pctBridges, pctRo
 			return "Not Permitted";
 		}
 	};
-	
-	return tooltip.style("top", myY-20 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'>Gas tax ($/gallon): <b>$" + Math.round(gasTaxRate)/100 + "</b><br>Last gas tax increase: <b>" + (2013-yrsSinceInc) + "</b><br>County-level gas tax under state law: <b>" + permitted(localGasTax) + "</b><br>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b></div><div class='tipClear'></div> </div>");
+	*/
+	function yearInc(yrsSinceInc){
+		if(yrsSinceInc==0){
+			return 1;
+		}
+		else{
+			return yrsSinceInc;
+		}
+	}
+	return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned Bridges: <b>" + Math.round(pctBridges*10)/10 + "%</b><br>County-owned Roads: <b>" + Math.round(pctRoads*10)/10 + "%</b>" + "<br/>Gas tax ($/gallon): <b>$" + (Math.round(gasTaxRate)/100).toFixed(2) + "</b><br>Last gas tax increase: <b>" + (2014-yearInc(yrsSinceInc))  + "</div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {
