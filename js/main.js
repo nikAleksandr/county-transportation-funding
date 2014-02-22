@@ -84,7 +84,7 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	}  
 	if(units=="categorical"){
 		xDomain = {
-			"Counties do not have authority to levy property taxes": 'rgb(255,166,1)',
+			"Counties do not have authority to levy property taxes on their own": 'rgb(255,166,1)',
 			"Both property tax rate and assessment limit": 'rgb(10,132,193)',
 			"Only assessment limit": 'rgb(96,175,215)', 
 			"Only property tax rate limit": 'rgb(201,228,242)', 
