@@ -320,7 +320,9 @@ $("#select button").click(function() {
 
 function clicked(d){
 	console.log(linkByState[d.id]);
-	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT" | linkByState[d.id]=="DE" | linkByState[d.id]=="NC" | linkByState[d.id]=="DE" | linkByState[d.id]=="VT" |linkByState[d.id]=="WV" |linkByState[d.id]=="NH"){}
+	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT" | linkByState[d.id]=="DE" | linkByState[d.id]=="NC" | linkByState[d.id]=="DE" | linkByState[d.id]=="VT" |linkByState[d.id]=="WV" |linkByState[d.id]=="NH"){
+		return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + "No Profile" + "</b></div><div id='tipKey'></b><p>The interactive provides individualized PDF profiles for 43 states where counties have authority over roads and/or bridges. Counties in four states (Delaware, North Carolina, Vermont and West Virginia) do not have authority over both roads and bridges. New Hampshire counties do not own roads and only one county (Belknap County) owns a bridge.</p></div></div>");
+	}
 	else{
 		window.open('profiles/state_summary_' + linkByState[d.id] + '.pdf', '_blank');
 	}
