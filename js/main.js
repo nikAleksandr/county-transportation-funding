@@ -84,18 +84,18 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	}  
 	if(units=="categorical"){
 		xDomain = {
-			"Counties do not have authority to levy property taxes on their own": 'rgb(255,166,1)',
 			"Both property tax rate and assessment limit": 'rgb(10,132,193)',
 			"Only assessment limit": 'rgb(96,175,215)', 
 			"Only property tax rate limit": 'rgb(201,228,242)', 
 			"Neither property tax rate nor assessment limit": 'rgb(255,204,102)',
+			"Counties do not have authority to levy property taxes on their own": 'rgb(255,166,1)',
 		};
 	}
 	if(units=="gasType"){
 		xDomain = {
 			"Fixed rate": 'rgb(10,132,193)',
 			"Variable rate": 'rgb(255,204,102)',
-			"Fixed and rariable rate": 'rgb(255,166,1)', 
+			"Fixed and variable rate": 'rgb(255,166,1)', 
 		};
 	}
 	if(units=="localGasTax"){
@@ -117,7 +117,7 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	
 	extraNote.remove();
 	extraNote = d3.select("#underMap").append("div");
-		extraNote.append("p").text("*" + notes);
+		extraNote.append("p").text(notes);
 		
 	source.remove();
 	source = d3.select("#dataSource").append("div").attr("id", "source");
@@ -205,7 +205,7 @@ function mapMaker(){
 		
 		extraNote.remove();
 		extraNote = d3.select("#underMap").append("div");
-			extraNote.append("p").text("*" + notes);
+			extraNote.append("p").text(notes);
 			
 		source.remove();
 		source = d3.select("#dataSource").append("div").attr("id", "source");
@@ -225,15 +225,15 @@ function chooseCat(value){
 			//research blues: 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)'
 			units = "/gal.";
 			legendTitleText = "State Excise Tax on Gasoline, as of January 2014";
-			notes = "State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
-			sourceText = "<em>Source: American Petroluem Institute, 2014</em>";
+			notes = "*State gas tax rate does not include the 18.4 cents per gallon federal gas tax.";
+			sourceText = "<em>Source: American Petroleum Institute, 2014</em>";
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 45];
 			range = ['rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', "rgb(155,155,155)"];
 			units = " years";
 			legendTitleText = "Number of Years Since the Last Increase of the State Gas Tax, as of February 2014";
-			notes = "NACo recalculated the number of years since the last increase of the state gas tax based on the current year 2014 and updated some of the years of the last increase of the state gas tax from the National Governors Association (NGA), How States and Territories Fund Transportation, 2009.";
+			notes = "*NACo recalculated the number of years since the last increase of the state gas tax based on the current year 2014 and updated some of the years of the last increase of the state gas tax from the National Governors Association (NGA), How States and Territories Fund Transportation, 2009.";
 			sourceText = "<em>Sources: NACo update of data from National Governors Association (NGA), How States and Territories Fund Transportation, 2009.</em>";
 			break;
 		case "localGasTax":
@@ -248,7 +248,7 @@ function chooseCat(value){
 			domain = [.01, 30, 50, 70, 100];
 			range = ['rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "%";
-			legendTitleText = "County Owned Bridge, Share of Statewide Bridges, 2012";
+			legendTitleText = "County Owned Bridges, Share of Statewide Bridges, 2012";
 			notes = "";
 			sourceText = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
 			break;
@@ -281,7 +281,7 @@ function chooseCat(value){
 			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "categorical";
 			legendTitleText = "State Imposed Limitations on County Property Tax Rates and Property Assessment, as of February 2014";
-			notes = "Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
+			notes = "*Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
 			sourceText = "<em>Sources: NACo update of National Conference of State Legislatures, A Guide to Property Taxes: Property Tax Relief, 2009.</em>";
 			break;			
 	}
@@ -322,7 +322,7 @@ function clicked(d){
 	console.log(linkByState[d.id]);
 	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT"){}
 	else{
-		window.open('profiles/State_Summary_' + linkByState[d.id] + '.pdf', '_blank');
+		window.open('profiles/state_summary_' + linkByState[d.id] + '.pdf', '_blank');
 	}
 }
 function toolOver(v, thepath) {
@@ -374,7 +374,7 @@ function toolMove(state, gasTaxRate, yrsSinceInc, pctBridges, pctRoads) {
 			return yrsSinceInc;
 		}
 	}
-	return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned bridges: <b>" + pctBridges + "</b><br>County-owned roads: <b>" + pctRoads + "</b>" + "<br/>State gas tax rate ($/gallon): <b>" + gasTaxRate + "</b><br>Last state gas tax increase: <b>" + yrsSinceInc  + "</div><div class='tipClear'></div> </div>");
+	return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned bridges, share of public bridges statewide: <b>" + pctBridges + "</b><br>County-owned roads, share of public roads statewide: <b>" + pctRoads + "</b>" + "<br/>State gas tax rate ($/gallon): <b>" + gasTaxRate + "</b><br>Year of last state gas tax increase: <b>" + yrsSinceInc  + "</div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {
