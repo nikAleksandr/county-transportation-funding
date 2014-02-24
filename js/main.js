@@ -320,7 +320,7 @@ $("#select button").click(function() {
 
 function clicked(d){
 	console.log(linkByState[d.id]);
-	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT"){}
+	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT" | linkByState[d.id]=="DE" | linkByState[d.id]=="NC" | linkByState[d.id]=="DE" | linkByState[d.id]=="VT" |linkByState[d.id]=="WV" |linkByState[d.id]=="NH"){}
 	else{
 		window.open('profiles/state_summary_' + linkByState[d.id] + '.pdf', '_blank');
 	}
