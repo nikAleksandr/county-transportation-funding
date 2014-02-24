@@ -86,8 +86,8 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 		xDomain = {
 			"Both property tax rate and assessment limit": 'rgb(10,132,193)',
 			"Only assessment limit": 'rgb(201,228,242)', 
-			"Only property tax rate limit": 'rgb(96,175,215)', 
-			"Neither property tax rate nor assessment limit": 'rgb(255,166,1)',
+			"Only property tax rate limit": 'rgb(255,166,1)', 
+			"Neither property tax rate nor assessment limit": 'rgb(96,175,215)',
 			"Counties do not have authority to levy property taxes on their own": 'rgb(255,204,102)',
 		};
 	}
@@ -219,9 +219,9 @@ function chooseCat(value){
 	switch (value){
 		case "gasTaxRate": 
 			domain = [5, 15, 25, 35, 45 ];
-			range = ['rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			//research colors(dark-yellow to dark-blue): 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155,155,155)'
-			//research colors(light-blue to light-yellow): 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'
+			//research colors(light-blue to light-yellow): 'rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'
 			//research colors(light-yellow to light-blue):
 			//research colors(dark-blue to dark-yellow): 'rgb(10,132,193)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(155,155,155)'
 			//research blues: 'rgb(201,228,242)', 'rgb(150,205,233)', 'rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(155,155,155)'
@@ -232,7 +232,7 @@ function chooseCat(value){
 			break;
 		case "yrsSinceInc":
 			domain = [1, 10, 20, 30, 45];
-			range = ['rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			units = " years";
 			legendTitleText = "Number of Years Since the Last Increase of the State Gas Tax, as of February 2014";
 			notes = "*NACo recalculated the number of years since the last increase of the state gas tax based on the current year 2014 and updated some of the years of the last increase of the state gas tax from the National Governors Association (NGA), How States and Territories Fund Transportation, 2009.";
@@ -248,7 +248,7 @@ function chooseCat(value){
 			break;
 		case "pctBridges":
 			domain = [.01, 30, 50, 70, 100];
-			range = ['rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "County Owned Bridges, Share of Statewide Bridges, 2012";
 			notes = "";
@@ -256,7 +256,7 @@ function chooseCat(value){
 			break;
 		case "pctRoads":
 			domain = [.01, 30, 50, 70, 100];
-			range = ['rgb(96,175,215)', 'rgb(48,146,195)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "County Owned Roads, Share of Statewide Public Roads, 2011";
 			notes = "";
@@ -280,7 +280,7 @@ function chooseCat(value){
 			break;
 		case "propTaxLimits": 
 			domain = [1, 2, 3, 4, 5];
-			range = ['rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(96,175,215)', 'rgb(201,228,242)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
+			range = ['rgb(255,204,102)',  'rgb(96,175,215)', 'rgb(255,166,1)', 'rgb(201,228,242)', 'rgb(10,132,193)', 'rgb(155, 155, 155)'];
 			units = "categorical";
 			legendTitleText = "State Imposed Limitations on County Property Tax Rates and Property Assessment, as of February 2014";
 			notes = "*Maine and Vermont do not give counties the authority to levy any taxes, but counties may request an assessment from the state government based on estimates of the costs of county services. In New Hampshire, a county delegation composed of state representatives is responsible for levying taxes.";
