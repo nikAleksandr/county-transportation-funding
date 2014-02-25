@@ -93,9 +93,9 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	}
 	if(units=="gasType"){
 		xDomain = {
-			"Fixed rate": 'rgb(10,132,193)',
+			"Fixed rate": 'rgb(255,166,1)',
 			"Variable rate": 'rgb(255,204,102)',
-			"Fixed and variable rate": 'rgb(255,166,1)', 
+			"Fixed and variable rate": 'rgb(10,132,193)', 
 		};
 	}
 	if(units=="localGasTax"){
@@ -264,7 +264,7 @@ function chooseCat(value){
 			break;
 		case "gasTaxType": 
 			domain = [2, 3, 4];
-			range = ['rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255,166,1)',  'rgb(155, 155, 155)'];
+			range = ['rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(10,132,193)',  'rgb(155, 155, 155)'];
 			units = "gasType";
 			legendTitleText = "State Gas Tax Rates (Fixed or Variable), as of February 2014";
 			notes = "";
