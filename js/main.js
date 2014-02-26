@@ -100,9 +100,9 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	}
 	if(units=="localGasTax"){
 		xDomain = {
-			"Not authorized": 'rgb(255,166,1)',
-			"Authorized but not adopted": 'rgb(96,175,215)',
-			"Adopted": 'rgb(10,132,193)', 
+			"Not authorized": 'rgb(10,132,193)',
+			"Authorized but not adopted": 'rgb(255,204,102)',
+			"Adopted": 'rgb(255,166,1)', 
 		};
 	}
 	
@@ -272,7 +272,7 @@ function chooseCat(value){
 			break;
 		case "localSalesTax": 
 			domain = [1, 2, 3];
-			range = ['rgb(255, 166, 1)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(155,155,155)'];
+			range = [ 'rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255, 166, 1)', 'rgb(155,155,155)'];
 			units = "localGasTax";
 			legendTitleText = "County Local Option Sales Taxes for Transportation, as of February 2014";
 			notes = "";
