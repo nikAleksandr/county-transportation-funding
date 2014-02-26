@@ -100,9 +100,9 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 	}
 	if(units=="localGasTax"){
 		xDomain = {
-			"Not authorized": 'rgb(10,132,193)',
-			"Authorized but not adopted": 'rgb(255,204,102)',
-			"Adopted": 'rgb(255,166,1)', 
+			"Not authorized": 'rgb(255,166,1)',
+			"Authorized but not adopted": 'rgb(96,175,215)',
+			"Adopted": 'rgb(10,132,193)', 
 		};
 	}
 	
