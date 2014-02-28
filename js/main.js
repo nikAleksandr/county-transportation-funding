@@ -52,16 +52,16 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 
 	xDomain = {};
 		for(var i=0; i< domain.length; i++){
-			var DText = parseFloat(domain[i-1]+.1) + "-" + parseFloat(domain[i]) + units;
+			var DText = parseFloat(domain[i-1]+.9) + "-" + parseFloat(domain[i]-.1) + units;
 				if(i==0){
-					DText = "≤ " + parseFloat(domain[i]) + units;
+					DText = "≤ " + parseFloat(domain[i]-.1) + units;
 					if(units=="%"){
 						DText = "0%";
 					}
 				}
 				if(i==1){
 					if(units=="%"){
-						DText = ".01-" + parseFloat(domain[i]) + units;
+						DText = ".01-" + parseFloat(domain[i]+.9) + units;
 					}
 				}
 				
@@ -231,7 +231,7 @@ function chooseCat(value){
 			sourceText = "<em>Source: American Petroleum Institute, 2014</em>";
 			break;
 		case "yrsSinceInc":
-			domain = [1, 10, 20, 30, 45];
+			domain = [1.1, 10.1, 20.1, 30.1, 45.1];
 			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			units = " years";
 			legendTitleText = "Number of Years Since the Last Increase of the State Gas Tax, as of February 2014";
@@ -247,7 +247,7 @@ function chooseCat(value){
 			sourceText = "<em>Sources: NACo Analysis of Goldman and Wachs, 2003; American Petroleum Institute (API), State Motor Fuel Taxes, October 2013; Goldman, Todd; Corbett, Sam; Wachs, Martin. Institute of Transportation Studies University of Berkeley. Local Option Transportation Taxes in the United States, Part One: Issues and Trends. March 2001.</em>";
 			break;
 		case "pctBridges":
-			domain = [.01, 30, 50, 70, 100];
+			domain = [.01, 30.1, 50.1, 70.1, 100.1];
 			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "County Owned Bridges, Share of Statewide Bridges, 2012";
@@ -255,7 +255,7 @@ function chooseCat(value){
 			sourceText = "<em>Source: NACo analysis of U.S. DOT, FHWA, National Bridge Inventory data, 2012</em>";
 			break;
 		case "pctRoads":
-			domain = [.01, 30, 50, 70, 100];
+			domain = [.01, 30.1, 50.1, 70.1, 100.1];
 			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(255,204,102)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "County Owned Roads, Share of Statewide Public Roads, 2011";

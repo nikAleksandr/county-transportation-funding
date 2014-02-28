@@ -9,7 +9,7 @@ id,stateAbbrev,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads,
 11,DC,24,District of Columbia,,101,1,0,101,101,101
 10,DE,23,Delaware,19,0,0,0,1,1,0
 12,FL,4,Florida,0,2,34,61,4,3,2
-13,GA,8,Georgia,0,0,50,69,1,3,2
+13,GA,8,Georgia,0,0,51,69,1,3,2
 15,HI,17,Hawaii,7,2,33,74,1,3,0
 19,IA,21,Iowa,25,0,79,79,4,1,2
 16,ID,25,Idaho,18,0,35,33,2,1,0
