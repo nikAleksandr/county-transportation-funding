@@ -378,7 +378,7 @@ function toolMove(state, gasTaxRate, yrsSinceInc, pctBridges, pctRoads) {
 			return yrsSinceInc;
 		}
 	}
-	return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned bridges, share of public bridges statewide: <b>" + pctBridges + "</b><br>County-owned roads, share of public roads statewide: <b>" + pctRoads + "</b>" + "<br/>State gas tax rate ($/gallon): <b>" + gasTaxRate + "</b><br>Year of last state gas tax increase: <b>" + yrsSinceInc  + "</div><div class='tipClear'></div> </div>");
+	return tooltip.style("top", myY + "px").style("left", myX+20+((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + state + "</b></div><div id='tipKey'></b>County-owned bridges, share of public bridges statewide: <b>" + pctBridges + "</b><br>County-owned roads, share of public roads statewide: <b>" + pctRoads + "</b>" + "<br/>State gas tax rate ($/gallon): <b>" + gasTaxRate + "</b><br>Year of last state gas tax increase: <b>" + yrsSinceInc  + "</div><div class='tipClear'></div> </div>");
 };
 
 function getScreenCoords(x, y, ctm) {
