@@ -251,7 +251,7 @@ function chooseCat(value){
 			break;
 		case "pctBridges":
 			domain = [.01, 30.1, 50.1, 70.1, 100.1];
-			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(155,155,155)', 'rgb(255,204,102)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "County Owned Bridges, Share of Statewide Bridges, 2012";
 			notes = "";
@@ -259,7 +259,7 @@ function chooseCat(value){
 			break;
 		case "pctBridgesDef":
 			domain = [.01, 30.1, 50.1, 70.1, 100.1];
-			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(155,155,155)', 'rgb(255,204,102)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "Share of County Structurally Deficient Bridges of all Structurally Deficient Bridges in the State, 2012";
 			notes = "";
@@ -267,7 +267,7 @@ function chooseCat(value){
 			break;
 		case "pctRoads":
 			domain = [.01, 30.1, 50.1, 70.1, 100.1];
-			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,166,1)', 'rgb(155,155,155)', 'rgb(255,204,102)'];
+			range = ['rgb(201,228,242)', 'rgb(96,175,215)', 'rgb(10,132,193)', 'rgb(255,204,102)', 'rgb(255,166,1)', 'rgb(155,155,155)'];
 			units = "%";
 			legendTitleText = "County Owned Roads, Share of Statewide Public Roads, 2011";
 			notes = "";
