@@ -61,7 +61,7 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 				}
 				if(i==1){
 					if(units=="%"){
-						DText = ".01-" + parseFloat(domain[i]+.9) + units;
+						DText = ".01-" + parseFloat(domain[i]-.1) + units;
 					}
 				}
 				
