@@ -219,6 +219,7 @@ h1 small {
 
 .btn-group{
 	color: rgb(0,64,112);
+	margin: 0 auto;
 }
 .btn-group .btn{
 	background-color: #FFF;

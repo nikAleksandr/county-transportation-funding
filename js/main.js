@@ -64,6 +64,9 @@ function legendMaker(domain, range, units, legendTitleText, notes, sourceText){
 						DText = ".01-" + parseFloat(domain[i]-.1) + units;
 					}
 				}
+				if(i==4 && units=="%"){
+						DText = "> 71" + units;
+				}
 				
 			if(units=="/gal."){
 				var DText = "$" + parseFloat((domain[i-1]+1)/100).toFixed(2) + "-" + parseFloat(domain[i]/100).toFixed(2) + units;
