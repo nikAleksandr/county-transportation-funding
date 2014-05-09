@@ -36,6 +36,8 @@ var color = d3.scale.threshold()
 
 var tooltip = d3.select("#map").append("div").attr("id", "tt").style("z-index", "10").style("position", "absolute").style("visibility", "hidden");
 
+var clickCount = 0;
+
 var legend;   
 
 legendMaker(domain, range, units, legendTitleText, notes, sourceText);
@@ -169,7 +171,19 @@ function mapMaker(){
 		    .enter().append("path")
 		      .attr("d", path)
 		      .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} })
-		      .on("click", clicked)
+		      .on('click', function(d) {
+						clickCount++;
+						if (clickCount === 1) {
+							singleClickTimer = setTimeout(function() {
+								clickCount = 0;
+								clicked(d);
+							}, 400);
+						} else if (clickCount === 2) {
+							clearTimeout(singleClickTimer);
+							clickCount = 0;
+							doubleClicked(d);
+						}
+					}, false)
 		      .on("mouseover", function (d) {
 			        return toolOver(d, this);
 		    }).on("mouseout", function (d) {
@@ -332,7 +346,7 @@ $("#select button").click(function() {
 //
 
 function clicked(d){
-	console.log(linkByState[d.id]);
+	
 	if(linkByState[d.id]=="RI" | linkByState[d.id]=="CT" | linkByState[d.id]=="DE" | linkByState[d.id]=="NC" | linkByState[d.id]=="DE" | linkByState[d.id]=="VT" |linkByState[d.id]=="WV" |linkByState[d.id]=="NH"){
 		return tooltip.style("top", myY+50 + "px").style("left", myX +((totWidth-width)/2) + "px").html("<div id='tipContainer'><div id='tipLocation'><b>" + "No Profile" + "</b></div><div id='tipKey'></b><p>The interactive provides individualized PDF profiles for 43 states where counties have authority over roads and/or bridges. Counties in four states (Delaware, North Carolina, Vermont and West Virginia) do not have authority over both roads and bridges. New Hampshire counties do not own roads and only one county (Belknap County) owns a bridge.</p></div></div>");
 	}
@@ -340,6 +354,18 @@ function clicked(d){
 		window.open('profiles/state_summary_' + linkByState[d.id] + '.pdf', '_blank');
 	}
 }
+
+function doubleClicked(d){
+
+	if(linkByState[d.id]=="DC"){
+		break;
+	}
+	else{
+		window.open('profiles/MAP21/' + linkByState[d.id] + ' MAP-21 Profile.pdf', '_blank');
+	}
+}
+
+
 function toolOver(v, thepath) {
 	d3.select(thepath).style({
 		"fill-opacity": "0.1",
