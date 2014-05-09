@@ -358,7 +358,7 @@ function clicked(d){
 function doubleClicked(d){
 
 	if(linkByState[d.id]=="DC"){
-		break;
+		
 	}
 	else{
 		window.open('profiles/MAP21/' + linkByState[d.id] + ' MAP-21 Profile.pdf', '_blank');
