@@ -1,5 +1,5 @@
 id,stateAbbrev,gasTaxRate,stateName,yrsSinceInc,localGasTax,pctBridges,pctRoads,propTaxLimits,gasTaxType,localSalesTax,pctBridgesDef
-2,AK,8,Alaska,44,2,11,7,2,1,1,17
+2,AK,8,Alaska,44,2,11,23,2,1,1,17
 1,AL,16,Alabama,22,2,54,61,4,1,2,77
 5,AR,22,Arkansas,13,0,34,66,4,1,2,57
 4,AZ,18,Arizona,23,0,13,28,4,1,2,20
