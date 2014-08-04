@@ -171,19 +171,7 @@ function mapMaker(){
 		    .enter().append("path")
 		      .attr("d", path)
 		      .style("fill", function(d) { if(!isNaN(quantByState[d.id])){return color(quantByState[d.id]);} else{return "#ccc";} })
-		      .on('click', function(d) {
-						clickCount++;
-						if (clickCount === 1) {
-							singleClickTimer = setTimeout(function() {
-								clickCount = 0;
-								clicked(d);
-							}, 400);
-						} else if (clickCount === 2) {
-							clearTimeout(singleClickTimer);
-							clickCount = 0;
-							doubleClicked(d);
-						}
-					}, false)
+		      //.on("click", clicked)
 		      .on("mouseover", function (d) {
 			        return toolOver(d, this);
 		    }).on("mouseout", function (d) {
@@ -212,8 +200,56 @@ function mapMaker(){
 		    });
 		      /*.append("svg:title")
 		      	.text(function(d) {return nameByState[d.id]; });
-		      */
-		     
+			*/
+			
+		var statesData = g.selectAll('path').data(topojson.feature(us, us.objects.states).features);
+		var mdownTime = -1;	
+		statesData.on('mousedown', function(d, i) {
+			mdownTime = $.now();
+		});
+	
+	
+		if ($('html').hasClass('no-touch')) {
+		// for non-touch screens
+		statesData.each(function(d, i) {
+			d.clickCount = 0;
+		});
+				
+		statesData.on('click', function(d, i) {
+			if ($.now() - mdownTime < 300) {
+				d3.event.stopPropagation();
+				var event = d3.event;
+			
+				d.clickCount++;
+				if (d.clickCount === 1) {
+					singleClickTimer = setTimeout(function() {
+						d.clickCount = 0;
+						clicked(d);
+					}, 300);
+				} else if (d.clickCount === 2) {
+					clearTimeout(singleClickTimer);
+					d.clickCount = 0;
+					doubleClicked(d);
+				}
+			}
+		});
+	} else {
+		// for touch screens; use double-tap instead of double-click
+		
+		statesData.on('click', function(d, i) {
+			if ($.now() - mdownTime < 300) {
+				d3.event.stopPropagation();
+				clicked(d);
+			}
+		});
+		
+		$('.states').addSwipeEvents().bind('doubletap', function(event, touch) {
+			event.stopPropagation();
+			doubleClicked(event.target);
+		});
+	}
+	//end click adn double-click events
+			
 		  g.append("path")
 		      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
 		      .attr("id", "state-borders")
